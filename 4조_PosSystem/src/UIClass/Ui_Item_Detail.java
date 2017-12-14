@@ -12,12 +12,12 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 
-public class Ui_Item_Detail extends JFrame {
+public class UI_Item_Detail extends JFrame {
 	private JTextField text_price;
 	private JTextField text_quantity;
 	private JTextField text_name;
 	private JTextField text_num;
-	public Ui_Item_Detail() {
+	public UI_Item_Detail() {
 		getContentPane().setLayout(null);	
 		
 		JButton change = new JButton("\uC218 \uC815");
