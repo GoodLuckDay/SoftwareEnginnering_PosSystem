@@ -20,7 +20,7 @@ public class DetailedSellRecord extends JFrame {
 		table = new JTable();
 		table.setModel(new DefaultTableModel(
 			new Object[][] {
-				{"1543125", "2017/11/11 12:37:44", "45,800 (��)"},
+				{"1543125", "2017/11/11 12:37:44", "45,800 (원)"},
 			},
 			new String[] {
 				"\uD310\uB9E4\uBC88\uD638", "\uACB0\uC7AC\uC2DC\uAC04", "\uD310\uB9E4\uAE08\uC561"
@@ -29,7 +29,7 @@ public class DetailedSellRecord extends JFrame {
 		scrollPane.setViewportView(table);
 		
 		JButton btnNewButton = new JButton("\uCDE8\uC18C");
-		btnNewButton.setFont(new Font("�������", Font.BOLD, 18));
+		btnNewButton.setFont(new Font("나눔고딕", Font.BOLD, 18));
 		btnNewButton.setBounds(231, 418, 127, 43);
 		getContentPane().add(btnNewButton);
 		

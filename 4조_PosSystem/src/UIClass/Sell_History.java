@@ -23,14 +23,14 @@ public class Sell_History extends JFrame {
 		getContentPane().setLayout(null);
 		
 		JButton cancel = new JButton("\uCDE8 \uC18C");
-		cancel.setFont(new Font("�������", Font.BOLD, 18));
+		cancel.setFont(new Font("나눔고딕", Font.BOLD, 18));
 		cancel.setBounds(282, 395, 204, 68);
 		getContentPane().add(cancel);
 		
 		JTable table = new JTable();
 		table.setModel(new DefaultTableModel(
 			new Object[][] {
-				{"1", "2017/11/11 12:37:44", "3,500(��)"},
+				{"1", "2017/11/11 12:37:44", "3,500(원)"},
 				{null, null, null},
 				{null, null, null},
 			},
@@ -39,11 +39,8 @@ public class Sell_History extends JFrame {
 			}
 		));
 		DefaultTableCellRenderer tScheduleCellRenderer = new DefaultTableCellRenderer();
-		 
-		// DefaultTableCellHeaderRenderer�� ������ ��� ���ķ� ����
+		
 		tScheduleCellRenderer.setHorizontalAlignment(JLabel.CENTER);
-		 
-		// �ݺ����� �̿��Ͽ� ���̺��� ��� ���ķ� ����
 		
 		table.getColumnModel().getColumn(1).setCellRenderer(tScheduleCellRenderer);
 		

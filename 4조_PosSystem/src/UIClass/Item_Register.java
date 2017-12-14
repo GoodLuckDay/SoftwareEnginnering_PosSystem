@@ -40,7 +40,7 @@ public class Item_Register extends JFrame {
 		getContentPane().setLayout(null);	
 		
 		JButton complete = new JButton("\uC644\uB8CC");
-		complete.setFont(new Font("����", Font.PLAIN, 24));
+		complete.setFont(new Font("굴림", Font.PLAIN, 24));
 		complete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
@@ -49,7 +49,7 @@ public class Item_Register extends JFrame {
 		getContentPane().add(complete);
 		
 		JButton cancel = new JButton("\uCDE8\uC18C");
-		cancel.setFont(new Font("����", Font.PLAIN, 24));
+		cancel.setFont(new Font("굴림", Font.PLAIN, 24));
 		cancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
@@ -63,35 +63,35 @@ public class Item_Register extends JFrame {
 		panel.setLayout(new GridLayout(3, 2));
 		
 		JLabel item_name = new JLabel("\uC0C1\uD488\uBA85");
-		item_name.setFont(new Font("����", Font.PLAIN, 30));
+		item_name.setFont(new Font("굴림", Font.PLAIN, 30));
 		item_name.setHorizontalAlignment(JLabel.CENTER);
 		panel.add(item_name);		
 		text_name = new JTextField();
 		text_name.setHorizontalAlignment(SwingConstants.CENTER);
-		text_name.setFont(new Font("����", Font.PLAIN, 20));
+		text_name.setFont(new Font("굴림", Font.PLAIN, 20));
 		text_name.setText("\uC815\uC724\uC218");
 		panel.add(text_name);
 		text_name.setColumns(10);
 		
 		JLabel item_quantity = new JLabel("\uC7AC \uACE0");
-		item_quantity.setFont(new Font("����", Font.PLAIN, 30));
+		item_quantity.setFont(new Font("굴림", Font.PLAIN, 30));
 		item_quantity.setHorizontalAlignment(JLabel.CENTER);
 		panel.add(item_quantity);
 		text_quantity = new JTextField();		
 		text_quantity.setHorizontalAlignment(SwingConstants.RIGHT);
-		text_quantity.setFont(new Font("����", Font.PLAIN, 20));
+		text_quantity.setFont(new Font("굴림", Font.PLAIN, 20));
 		text_quantity.setText("10");
 		panel.add(text_quantity);
 		text_quantity.setColumns(10);
 		
 		JLabel item_price = new JLabel("\uAC00 \uACA9");
-		item_price.setFont(new Font("����", Font.PLAIN, 30));
+		item_price.setFont(new Font("굴림", Font.PLAIN, 30));
 		item_price.setHorizontalAlignment(JLabel.CENTER);
 		panel.add(item_price);
 		text_price = new JTextField();
 		text_price.setHorizontalAlignment(SwingConstants.RIGHT);
 		text_price.setText("39,800\uC6D0");
-		text_price.setFont(new Font("����", Font.PLAIN, 20));
+		text_price.setFont(new Font("굴림", Font.PLAIN, 20));
 		panel.add(text_price);		
 		text_price.setColumns(10);
 		
