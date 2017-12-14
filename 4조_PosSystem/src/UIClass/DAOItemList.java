@@ -19,8 +19,8 @@ public class DAOItemList extends JFrame {
 	public DAOItemList() {
 		getContentPane().setLayout(null);
 
-		JButton btnNewButton = new JButton("��ǰ ���");
-		btnNewButton.setFont(new Font("�������", Font.BOLD, 18));
+		JButton btnNewButton = new JButton("물품 등록");
+		btnNewButton.setFont(new Font("나눔고딕", Font.BOLD, 18));
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
@@ -28,8 +28,8 @@ public class DAOItemList extends JFrame {
 		btnNewButton.setBounds(181, 406, 131, 39);
 		getContentPane().add(btnNewButton);
 		
-		JButton btnNewButton_1 = new JButton("���");
-		btnNewButton_1.setFont(new Font("�������", Font.BOLD, 18));
+		JButton btnNewButton_1 = new JButton("취소");
+		btnNewButton_1.setFont(new Font("나눔고딕", Font.BOLD, 18));
 		btnNewButton_1.setBounds(450, 406, 125, 39);
 		getContentPane().add(btnNewButton_1);
 		
