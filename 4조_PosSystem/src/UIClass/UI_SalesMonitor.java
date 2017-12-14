@@ -22,7 +22,7 @@ import javax.swing.Box;
 import javax.swing.JTextField;
 
 
-public class salesMonitor extends JFrame {
+public class UI_SalesMonitor extends JFrame {
 	private final JButton exitButton = new JButton("취소");
 	private final JScrollPane scroll;
 	private final JTable jTable = new JTable();
@@ -32,7 +32,7 @@ public class salesMonitor extends JFrame {
 	private JLabel lblNewLabel;
 	private JLabel label;
 	private JLabel label_1;
-	public salesMonitor() {
+	public UI_SalesMonitor() {
 		setResizable(false);
 		setTitle("판매 화면");
 		exitButton.setBounds(421, 385, 120, 50);
@@ -84,6 +84,6 @@ public class salesMonitor extends JFrame {
 
 	
 	public static void main(String[] args){
-		salesMonitor mytest = new salesMonitor();
+		UI_SalesMonitor mytest = new UI_SalesMonitor();
 	}
 }

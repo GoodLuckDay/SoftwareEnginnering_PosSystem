@@ -13,8 +13,8 @@ import java.awt.Font;
 import java.awt.Component;
 import javax.swing.SwingConstants;
 
-public class MainMenu extends JFrame {
-	public MainMenu() {
+public class UI_MainMenu extends JFrame {
+	public UI_MainMenu() {
 		final JFrame mainFrame = new JFrame("Main Menu");
 		Font mainText = new Font("궁서",Font.BOLD,20);
 		mainFrame.getContentPane().setLayout(null);
@@ -22,7 +22,7 @@ public class MainMenu extends JFrame {
 		JButton button = new JButton("물품 관리");
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new DAOItemList();
+				new UI_ItemList();
 				mainFrame.dispose();
 			}
 		});
@@ -46,6 +46,6 @@ public class MainMenu extends JFrame {
 	
 	public static void main(String[] args){
 		System.out.println("sfsfs");
-		new MainMenu();
+		new UI_MainMenu();
 	}
 }

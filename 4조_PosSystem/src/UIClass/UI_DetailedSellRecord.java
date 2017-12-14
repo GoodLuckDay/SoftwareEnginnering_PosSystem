@@ -7,10 +7,10 @@ import javax.swing.JProgressBar;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-public class DetailedSellRecord extends JFrame {
+public class UI_DetailedSellRecord extends JFrame {
 	private JTable table;
 	private JTable table_1;
-	public DetailedSellRecord() {
+	public UI_DetailedSellRecord() {
 		getContentPane().setLayout(null);
 		
 		JScrollPane scrollPane = new JScrollPane();
