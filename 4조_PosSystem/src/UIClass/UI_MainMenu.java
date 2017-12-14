@@ -45,7 +45,6 @@ public class UI_MainMenu extends JFrame {
 	}
 	
 	public static void main(String[] args){
-		System.out.println("sfsfs");
 		new UI_MainMenu();
 	}
 }
