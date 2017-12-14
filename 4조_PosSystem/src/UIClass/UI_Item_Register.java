@@ -32,11 +32,11 @@ import java.awt.Insets;
 import javax.swing.SwingConstants;
 
 
-public class Item_Register extends JFrame {
+public class UI_Item_Register extends JFrame {
 	private JTextField text_price;
 	private JTextField text_quantity;
 	private JTextField text_name;
-	public Item_Register() {
+	public UI_Item_Register() {
 		getContentPane().setLayout(null);	
 		
 		JButton complete = new JButton("\uC644\uB8CC");
