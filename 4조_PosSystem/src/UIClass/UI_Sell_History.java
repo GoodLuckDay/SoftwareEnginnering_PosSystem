@@ -17,9 +17,9 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
 
-public class Sell_History extends JFrame {
+public class UI_Sell_History extends JFrame {
 
-	public Sell_History() {
+	public UI_Sell_History() {
 		getContentPane().setLayout(null);
 		
 		JButton cancel = new JButton("\uCDE8 \uC18C");
@@ -53,6 +53,6 @@ public class Sell_History extends JFrame {
 		
 	}
 	public static void maine(String[] args) {
-		Sell_History test = new Sell_History();
+		UI_Sell_History test = new UI_Sell_History();
 	}
 }

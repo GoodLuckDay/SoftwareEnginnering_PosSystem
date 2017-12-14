@@ -15,8 +15,8 @@ import java.awt.Color;
 import javax.swing.border.LineBorder;
 import java.awt.CardLayout;
 
-public class DAOItemList extends JFrame {
-	public DAOItemList() {
+public class UI_ItemList extends JFrame {
+	public UI_ItemList() {
 		getContentPane().setLayout(null);
 
 		JButton btnNewButton = new JButton("물품 등록");

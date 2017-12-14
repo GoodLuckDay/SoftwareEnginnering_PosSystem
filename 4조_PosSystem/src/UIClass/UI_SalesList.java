@@ -9,10 +9,10 @@ import javax.swing.border.LineBorder;
 import java.awt.Color;
 
 
-public class salesList extends JFrame {
+public class UI_SalesList extends JFrame {
 	private final JButton exitButton = new JButton("취소");
 	private JScrollPane scroll;
-	public salesList() {
+	public UI_SalesList() {
 		getContentPane().setLayout(null);
 		exitButton.setBounds(747, 365, 117, 50);
 		getContentPane().add(exitButton);
