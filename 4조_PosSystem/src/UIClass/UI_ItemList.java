@@ -66,7 +66,7 @@ public class UI_ItemList extends JFrame {
 	 * for test code
 	 * 현재 클래스에서 실행을 하면 바로 현재 UI가 실행이 가능하게 한다. 
 	 */
-	public static void main(String[] args){
-		new UI_ItemList();
-	}
+//	public static void main(String[] args){
+//		new UI_ItemList();
+//	}
 }

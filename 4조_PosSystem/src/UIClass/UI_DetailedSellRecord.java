@@ -79,7 +79,7 @@ public class UI_DetailedSellRecord extends JFrame {
 		this.setVisible(true);
 	}
 	
-	public static void main(String[] args){
-		new UI_DetailedSellRecord();
-	}
+//	public static void main(String[] args){
+//		new UI_DetailedSellRecord();
+//	}
 }

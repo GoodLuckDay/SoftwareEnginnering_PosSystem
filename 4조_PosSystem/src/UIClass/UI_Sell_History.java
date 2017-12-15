@@ -56,7 +56,7 @@ public class UI_Sell_History extends JFrame {
 		this.setSize(770, 500);
 		this.setVisible(true);
 	}
-	public static void main(String[] args) {
-		new UI_Sell_History();
-	}
+//	public static void main(String[] args) {
+//		new UI_Sell_History();
+//	}
 }

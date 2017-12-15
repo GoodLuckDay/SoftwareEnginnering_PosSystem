@@ -90,7 +90,7 @@ public class UI_SalesMonitor extends JFrame {
 		this.setSize(950, 500);
 		this.setVisible(true);
 	}
-	public static void main(String[] args){
-		new UI_SalesMonitor();
-	}
+//	public static void main(String[] args){
+//		new UI_SalesMonitor();
+//	}
 }

@@ -71,7 +71,7 @@ public class UI_SalesList extends JFrame {
 		this.setSize(900, 500);
 		this.setVisible(true);
 	}
-	public static void main(String[] args){
-		new UI_SalesList();
-	}
+//	public static void main(String[] args){
+//		new UI_SalesList();
+//	}
 }
