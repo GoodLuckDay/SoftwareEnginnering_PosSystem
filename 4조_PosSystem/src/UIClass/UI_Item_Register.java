@@ -22,13 +22,18 @@ import java.awt.event.ActionEvent;
 import javax.swing.border.LineBorder;
 
 import java.awt.Color;
+
 import javax.swing.JLabel;
+
 import java.awt.FlowLayout;
+
 import javax.swing.JTextField;
+
 import java.awt.GridLayout;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+
 import javax.swing.SwingConstants;
 
 
@@ -52,6 +57,7 @@ public class UI_Item_Register extends JFrame {
 		cancel.setFont(new Font("굴림", Font.PLAIN, 24));
 		cancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				dispose();
 			}
 		});
 		cancel.setBounds(393, 140, 190, 63);
@@ -94,7 +100,15 @@ public class UI_Item_Register extends JFrame {
 		text_price.setFont(new Font("굴림", Font.PLAIN, 20));
 		panel.add(text_price);		
 		text_price.setColumns(10);
-		
-
+		this.setResizable(false);
+		this.setSize(600, 280);
+		this.setVisible(true);
+	}
+	/*
+	 * for test code
+	 * 현재 클래스에서 실행을 하면 바로 현재 UI가 실행이 가능하게 한다. 
+	 */
+	public static void main(String[] args){
+		new UI_Item_Register();
 	}
 }

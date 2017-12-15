@@ -33,12 +33,18 @@ public class UI_Item_Detail extends JFrame {
 		delete.setFont(new Font("굴림", Font.PLAIN, 24));
 		delete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
 			}
 		});
 		delete.setBounds(411, 178, 190, 63);
 		getContentPane().add(delete);
 		
 		JButton cancel = new JButton("\uCDE8 \uC18C");
+		cancel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+			}
+		});
 		cancel.setFont(new Font("굴림", Font.PLAIN, 24));
 		cancel.setBounds(411, 274, 190, 63);
 		getContentPane().add(cancel);
@@ -92,6 +98,15 @@ public class UI_Item_Detail extends JFrame {
 		text_quantity.setText("10");
 		panel.add(text_quantity);
 		text_quantity.setColumns(10);
-
+		this.setResizable(false);
+		this.setSize(700, 500);
+		this.setVisible(true);
+	}
+	/*
+	 * for test code
+	 * 현재 클래스에서 실행을 하면 바로 현재 UI가 실행이 가능하게 한다. 
+	 */
+	public static void main(String[] args){
+		new UI_Item_Detail();
 	}
 }

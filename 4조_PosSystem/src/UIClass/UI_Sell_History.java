@@ -21,8 +21,13 @@ public class UI_Sell_History extends JFrame {
 
 	public UI_Sell_History() {
 		getContentPane().setLayout(null);
-		
 		JButton cancel = new JButton("\uCDE8 \uC18C");
+		cancel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new UI_MainMenu();
+				dispose();
+			}
+		});
 		cancel.setFont(new Font("나눔고딕", Font.BOLD, 18));
 		cancel.setBounds(282, 395, 204, 68);
 		getContentPane().add(cancel);
@@ -47,12 +52,11 @@ public class UI_Sell_History extends JFrame {
 		JScrollPane scroll = new JScrollPane(table);
 		scroll.setBounds(12, 22, 748, 351);
 		getContentPane().add(scroll);
-
-	
-		
-		
+		this.setResizable(false);
+		this.setSize(770, 500);
+		this.setVisible(true);
 	}
-	public static void maine(String[] args) {
-		UI_Sell_History test = new UI_Sell_History();
+	public static void main(String[] args) {
+		new UI_Sell_History();
 	}
 }

@@ -2,10 +2,15 @@ package UIClass;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JButton;
+
 import java.awt.Font;
+
 import javax.swing.JProgressBar;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class UI_DetailedSellRecord extends JFrame {
 	private JTable table;
@@ -28,10 +33,15 @@ public class UI_DetailedSellRecord extends JFrame {
 		));
 		scrollPane.setViewportView(table);
 		
-		JButton btnNewButton = new JButton("\uCDE8\uC18C");
-		btnNewButton.setFont(new Font("나눔고딕", Font.BOLD, 18));
-		btnNewButton.setBounds(231, 418, 127, 43);
-		getContentPane().add(btnNewButton);
+		JButton exitButton = new JButton("\uCDE8\uC18C");
+		exitButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+			}
+		});
+		exitButton.setFont(new Font("나눔고딕", Font.BOLD, 18));
+		exitButton.setBounds(231, 418, 127, 43);
+		getContentPane().add(exitButton);
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
 		scrollPane_1.setBounds(12, 63, 579, 306);
@@ -64,5 +74,12 @@ public class UI_DetailedSellRecord extends JFrame {
 			}
 		));
 		scrollPane_1.setViewportView(table_1);
+		this.setResizable(false);
+		this.setSize(600, 500);
+		this.setVisible(true);
+	}
+	
+	public static void main(String[] args){
+		new UI_DetailedSellRecord();
 	}
 }
