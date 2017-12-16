@@ -4,6 +4,8 @@ package PosDAOClass;
 import DBCP.DBConnectionPoolMgr;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.Vector;
 
 public class ItemDAO {
 
@@ -39,23 +41,25 @@ public class ItemDAO {
     }
 
     //상품 내역 조회
-    public  void getItemList() {
+    public ArrayList<ItemDTO> getItemList() {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
+        ArrayList<ItemDTO> data = null;
         try {
             connection = DBConnectionPoolMgr.geteDataSource().getConnection();
             StringBuffer query = new StringBuffer();
             query.append("SELECT * FROM item");
             preparedStatement = connection.prepareStatement(query.toString());
-
             ResultSet rs = preparedStatement.executeQuery();
+            ResultSetMetaData rsmd = rs.getMetaData();
+            data = new ArrayList<>();
             while (rs.next()) {
+
                 String name = rs.getString("item_name");
                 int price = rs.getInt("item_price");
                 int stock = rs.getInt("item_stock");
-                System.out.println(name + " " + price + " " + stock);
+                data.add(new ItemDTO(name, price, stock));
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -67,6 +71,7 @@ public class ItemDAO {
                 e.printStackTrace();
             }
         }
+        return data;
     }
 
     //상품 상세 조회

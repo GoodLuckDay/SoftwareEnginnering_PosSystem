@@ -1,4 +1,7 @@
 package UIClass;
+import PosDAOClass.ItemDAO;
+import PosDAOClass.ItemListDTO;
+
 import javax.swing.JFrame;
 import javax.swing.JButton;
 
@@ -19,9 +22,14 @@ import java.awt.Color;
 import javax.swing.border.LineBorder;
 
 import java.awt.CardLayout;
+import java.util.Vector;
 
 public class UI_ItemList extends JFrame {
+	ItemListDTO itemListDTO = null;
+	Vector cols = null;
+	Vector rows = null;
 	public UI_ItemList() {
+		itemListDTO = new ItemListDTO();
 		getContentPane().setLayout(null);
 
 		JButton btnNewButton = new JButton("물품 등록");
@@ -44,16 +52,22 @@ public class UI_ItemList extends JFrame {
 		btnNewButton_1.setFont(new Font("나눔고딕", Font.BOLD, 18));
 		btnNewButton_1.setBounds(450, 406, 125, 39);
 		getContentPane().add(btnNewButton_1);
-		
+
+		Vector cols = new Vector();
+		cols.add("상품 번호");
+		cols.add("상품명");
+		cols.add("재고");
+		cols.add("가격");
 		JTable table = new JTable();
-		table.setModel(new DefaultTableModel(
-			new Object[][] {
-				{"1", "GOD", "1", "500"},
-			},
-			new String[] {
-				"\uC0C1\uD488 \uBC88\uD638", "\uC0C1\uD488\uBA85", "\uC7AC\uACE0", "\uAC00\uACA9"
+
+		Vector rows = itemListDTO.getItemListData();
+		table.setModel(new DefaultTableModel(rows,cols){
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return false;
 			}
-		));
+		});
+
 		table.getColumnModel().getColumn(3).setMinWidth(20);
 		JScrollPane scroll = new JScrollPane(table);
 		scroll.setBounds(12, 22, 748, 351);
@@ -62,6 +76,7 @@ public class UI_ItemList extends JFrame {
 		this.setSize(770, 500);
 		this.setVisible(true);
 	}
+
 	/*
 	 * for test code
 	 * 현재 클래스에서 실행을 하면 바로 현재 UI가 실행이 가능하게 한다. 
