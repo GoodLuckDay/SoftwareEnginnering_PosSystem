@@ -7,20 +7,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class SalesInfo {
+public class SalesInfoDAO {
     public static void createSaleInfo(String currentTime, int totalCost, TestItem[] items) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try {
             connection = DBConnectionPoolMgr.geteDataSource().getConnection();
             StringBuffer cQuery = new StringBuffer();
-
-            cQuery.append("INSERT INTO salesInfo(paymentTime, totalCost) values(?,?)");
-            preparedStatement = connection.prepareStatement(cQuery.toString());
-            preparedStatement.setString(1, currentTime);
-            preparedStatement.setInt(2, totalCost);
-            preparedStatement.executeUpdate();
-
             cQuery = new StringBuffer();
             cQuery.append("INSERT INTO saledItem(paymentTime, saledItem_name, saledItem_count, saledItem_price) values(?,?,?,?)");
             preparedStatement = connection.prepareStatement(cQuery.toString());
@@ -83,6 +76,38 @@ public class SalesInfo {
             }
         }
     }
+
+    public static void getTotalCost(String requestedTime){
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        try {
+            connection = DBConnectionPoolMgr.geteDataSource().getConnection();
+            StringBuffer cQuery = new StringBuffer();
+
+            cQuery.append("SELECT SUM(saledItem_price) as totalCost FROM saledItem WHERE paymentTime = ?");
+            preparedStatement = connection.prepareStatement(cQuery.toString());
+            preparedStatement.setString(1, requestedTime);
+
+            ResultSet rs = preparedStatement.executeQuery();
+            rs.next();
+            int cost = rs.getInt("totalCost");
+            System.out.println(cost);
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        } finally
+
+        {
+            try {
+                closeConnectionAndStmt(connection, preparedStatement);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     private static void closeConnectionAndStmt(Connection connection, PreparedStatement preparedStatement) throws SQLException {
         if (preparedStatement != null) {
             preparedStatement.close();
@@ -99,5 +124,6 @@ public class SalesInfo {
 //        }
 //        createSaleInfo("2017/11/11 12:37", 3500, items);
         getSaledItemList("2017/11/11 12:37");
+        getTotalCost("2017/11/11 12:37");
     }
 }
