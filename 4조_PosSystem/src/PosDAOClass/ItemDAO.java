@@ -45,12 +45,10 @@ public class ItemDAO {
         try {
             connection = DBConnectionPoolMgr.geteDataSource().getConnection();
 
-            StringBuffer query = new StringBuffer();
             StringBuffer cQuery = new StringBuffer();
+            StringBuffer query = new StringBuffer();
             query.append("SELECT IFNULL(MAX('Y'), 'N') AS item_exist_yn FROM item WHERE item_name = '" + item + "'");
-
             preparedStatement = connection.prepareStatement(query.toString());
-
             ResultSet rs = preparedStatement.executeQuery(query.toString());
             rs.next();
             String itemExistYn = rs.getString("item_exist_yn");
@@ -122,13 +120,49 @@ public class ItemDAO {
             preparedStatement.setString(1, itemName);
 
             ResultSet rs = preparedStatement.executeQuery();
+            if(rs.next()) {
+                String name = rs.getString("item_name");
+                int price = rs.getInt("item_price");
+                int stock = rs.getInt("item_stock");
+                System.out.println(name +" "+price+" "+stock);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                closeConnectionAndStmt(connection, preparedStatement);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static void deleteItemInfo(String itemName){
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        try {
+            connection = DBConnectionPoolMgr.geteDataSource().getConnection();
+            StringBuffer cQuery = new StringBuffer();
+            StringBuffer query = new StringBuffer();
+
+            query.append("SELECT IFNULL(MAX('Y'), 'N') AS item_exist_yn FROM item WHERE item_name = '" + itemName + "'");
+            preparedStatement = connection.prepareStatement(query.toString());
+            ResultSet rs = preparedStatement.executeQuery(query.toString());
             rs.next();
-            String name = rs.getString("item_name");
-            int price = rs.getInt("item_price");
-            int stock = rs.getInt("item_stock");
+            String itemExistYn = rs.getString("item_exist_yn");
 
-            System.out.println(name +" "+price+" "+stock);
-
+            if(itemExistYn.equals("Y")){
+                cQuery.append("DELETE FROM item WHERE item_name = ?");
+                preparedStatement = connection.prepareStatement(cQuery.toString());
+                preparedStatement.setString(1, itemName);
+                preparedStatement.executeUpdate();
+            }
+            else{
+                return ;
+            }
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -152,7 +186,10 @@ public class ItemDAO {
     }
 
     public static void main(String[] args) {
-        createItem("오레오", 1200, 5);
-        getDetatilItemInfo("오레오");
+        for(int i=0; i<10; i++){
+            createItem("오레오"+i, 1200, 5);
+        }
+        deleteItemInfo("오레오6");
+        getItemList();
     }
 }
