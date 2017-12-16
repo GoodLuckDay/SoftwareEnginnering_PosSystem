@@ -6,33 +6,6 @@ import DBCP.DBConnectionPoolMgr;
 import java.sql.*;
 
 public class ItemDAO {
-    private String itemName;
-    private int itemPrice;
-    private int itemStock;
-
-    public String getItemName() {
-        return itemName;
-    }
-
-    public void setItemName(String itemName) {
-        this.itemName = itemName;
-    }
-
-    public int getItemPrice() {
-        return itemPrice;
-    }
-
-    public void setItemPrice(int itemPrice) {
-        this.itemPrice = itemPrice;
-    }
-
-    public int getItemStock() {
-        return itemStock;
-    }
-
-    public void setItemStock(int itemStock) {
-        this.itemStock = itemStock;
-    }
 
     //상품 등록
     public  void createItem(String itemName, int price, int stock) {
@@ -129,6 +102,7 @@ public class ItemDAO {
         }
     }
 
+    //상품 정보 삭제
     public  void deleteItemInfo(String itemName){
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -157,6 +131,7 @@ public class ItemDAO {
         }
     }
 
+    //상품 정보 갱신
     public  void updateItemInfo(String itemName, String newItemName, int itemPrice, int itemStock){
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -188,6 +163,7 @@ public class ItemDAO {
         }
     }
 
+    //상품 확인
     private boolean isItemExist(Connection connection, PreparedStatement preparedStatement, String itemName) throws Exception{
         StringBuffer query = new StringBuffer();
         query.append("SELECT IFNULL(MAX('Y'), 'N') AS item_exist_yn FROM item WHERE item_name = '" + itemName + "'");
@@ -198,6 +174,7 @@ public class ItemDAO {
         return itemExistYn.equals("Y") ? true : false;
     }
 
+    //연결 제거
     private void closeConnectionAndStmt(Connection connection, PreparedStatement preparedStatement) throws SQLException {
         if (preparedStatement != null) {
             preparedStatement.close();
