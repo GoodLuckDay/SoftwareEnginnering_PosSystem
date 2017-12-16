@@ -1,9 +1,5 @@
 package PosDAOClass;
 
-/**
- * @title 상품
- * @author Goodluckday
- */
 
 import DBCP.DBConnectionPoolMgr;
 
