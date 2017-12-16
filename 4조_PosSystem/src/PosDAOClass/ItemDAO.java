@@ -39,26 +39,19 @@ public class ItemDAO {
     }
 
     //상품 등록
-    public static void createItem(String item, int price, int stock) {
+    public static void createItem(String itemName, int price, int stock) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try {
             connection = DBConnectionPoolMgr.geteDataSource().getConnection();
 
             StringBuffer cQuery = new StringBuffer();
-            StringBuffer query = new StringBuffer();
-            query.append("SELECT IFNULL(MAX('Y'), 'N') AS item_exist_yn FROM item WHERE item_name = '" + item + "'");
-            preparedStatement = connection.prepareStatement(query.toString());
-            ResultSet rs = preparedStatement.executeQuery(query.toString());
-            rs.next();
-            String itemExistYn = rs.getString("item_exist_yn");
-
-            if (itemExistYn.equals("Y")) {
+            if(isItemExist(connection, preparedStatement, itemName)){
                 return;
             } else {
                 cQuery.append("INSERT INTO item(item_name, item_price, item_stock) values(?,?,?)");
                 preparedStatement = connection.prepareStatement(cQuery.toString());
-                preparedStatement.setString(1, item);
+                preparedStatement.setString(1, itemName);
                 preparedStatement.setInt(2, price);
                 preparedStatement.setInt(3, stock);
                 preparedStatement.executeUpdate();
@@ -146,15 +139,7 @@ public class ItemDAO {
         try {
             connection = DBConnectionPoolMgr.geteDataSource().getConnection();
             StringBuffer cQuery = new StringBuffer();
-            StringBuffer query = new StringBuffer();
-
-            query.append("SELECT IFNULL(MAX('Y'), 'N') AS item_exist_yn FROM item WHERE item_name = '" + itemName + "'");
-            preparedStatement = connection.prepareStatement(query.toString());
-            ResultSet rs = preparedStatement.executeQuery(query.toString());
-            rs.next();
-            String itemExistYn = rs.getString("item_exist_yn");
-
-            if(itemExistYn.equals("Y")){
+            if(isItemExist(connection, preparedStatement, itemName)){
                 cQuery.append("DELETE FROM item WHERE item_name = ?");
                 preparedStatement = connection.prepareStatement(cQuery.toString());
                 preparedStatement.setString(1, itemName);
@@ -176,6 +161,47 @@ public class ItemDAO {
         }
     }
 
+    public static void updateItemInfo(String itemName, String newItemName, int itemPrice, int itemStock){
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        try {
+            connection = DBConnectionPoolMgr.geteDataSource().getConnection();
+            StringBuffer cQuery = new StringBuffer();
+            if(isItemExist(connection, preparedStatement, itemName)){
+                cQuery.append("UPDATE item SET item_name = ?, item_price = ?, item_stock = ? WHERE item_name = ?");
+                preparedStatement = connection.prepareStatement(cQuery.toString());
+                preparedStatement.setString(1, newItemName);
+                preparedStatement.setInt(2, itemPrice);
+                preparedStatement.setInt(3, itemStock);
+                preparedStatement.setString(4, itemName);
+                preparedStatement.executeUpdate();
+            }
+            else{
+                return ;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                closeConnectionAndStmt(connection, preparedStatement);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private static boolean isItemExist(Connection connection, PreparedStatement preparedStatement, String itemName) throws Exception{
+        StringBuffer query = new StringBuffer();
+        query.append("SELECT IFNULL(MAX('Y'), 'N') AS item_exist_yn FROM item WHERE item_name = '" + itemName + "'");
+        preparedStatement = connection.prepareStatement(query.toString());
+        ResultSet rs = preparedStatement.executeQuery(query.toString());
+        rs.next();
+        String itemExistYn = rs.getString("item_exist_yn");
+        return itemExistYn.equals("Y") ? true : false;
+    }
+
     private static void closeConnectionAndStmt(Connection connection, PreparedStatement preparedStatement) throws SQLException {
         if (preparedStatement != null) {
             preparedStatement.close();
@@ -189,7 +215,8 @@ public class ItemDAO {
         for(int i=0; i<10; i++){
             createItem("오레오"+i, 1200, 5);
         }
-        deleteItemInfo("오레오6");
+//        deleteItemInfo("오레오5");
+        updateItemInfo("오레오5", "GOD", 444, 444);
         getItemList();
     }
 }
