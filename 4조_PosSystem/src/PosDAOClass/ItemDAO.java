@@ -1,9 +1,13 @@
 package PosDAOClass;
 
+/**
+ * @title 상품
+ * @author Goodluckday
+ */
+
 import DBCP.DBConnectionPoolMgr;
 
 import java.sql.*;
-import java.util.Vector;
 
 public class ItemDAO {
     private String itemName;
@@ -34,6 +38,7 @@ public class ItemDAO {
         this.itemStock = itemStock;
     }
 
+    //상품 등록
     public static void createItem(String item, int price, int stock) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -63,22 +68,17 @@ public class ItemDAO {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            if (preparedStatement != null) {
-                try {
-                    preparedStatement.close();
-                } catch (SQLException e) {
-                }
-            }
-            if (connection != null){
-                try {
-                    connection.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+            try {
+                closeConnectionAndStmt(connection, preparedStatement);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
     }
 
+    //상품 내역 조회
     public static void getItemList() {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -89,36 +89,70 @@ public class ItemDAO {
             preparedStatement = connection.prepareStatement(query.toString());
 
             ResultSet rs = preparedStatement.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 String name = rs.getString("item_name");
                 int price = rs.getInt("item_price");
                 int stock = rs.getInt("item_stock");
-                System.out.println(name + " "+ price + " "+ stock);
+                System.out.println(name + " " + price + " " + stock);
             }
 
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            if (preparedStatement != null) {
-                try {
-                    preparedStatement.close();
-                } catch (SQLException e) {
-                }
-            }
-            if (connection != null){
-                try {
-                    connection.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+            try {
+                closeConnectionAndStmt(connection, preparedStatement);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
     }
 
-    public static void main(String[] args) {
-        for(int i=1; i<=20; i++){
-         createItem("Test"+i, i, i+10);
+    //상품 상세 조회
+    public static void getDetatilItemInfo(String itemName) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        try {
+            connection = DBConnectionPoolMgr.geteDataSource().getConnection();
+            StringBuffer query = new StringBuffer();
+            query.append("SELECT * FROM item WHERE item_name = ?");
+
+            preparedStatement = connection.prepareStatement(query.toString());
+            preparedStatement.setString(1, itemName);
+
+            ResultSet rs = preparedStatement.executeQuery();
+            rs.next();
+            String name = rs.getString("item_name");
+            int price = rs.getInt("item_price");
+            int stock = rs.getInt("item_stock");
+
+            System.out.println(name +" "+price+" "+stock);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                closeConnectionAndStmt(connection, preparedStatement);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
-        getItemList();
+    }
+
+    private static void closeConnectionAndStmt(Connection connection, PreparedStatement preparedStatement) throws SQLException {
+        if (preparedStatement != null) {
+            preparedStatement.close();
+        }
+        if (connection != null) {
+            connection.close();
+        }
+    }
+
+    public static void main(String[] args) {
+        createItem("오레오", 1200, 5);
+        getDetatilItemInfo("오레오");
     }
 }
