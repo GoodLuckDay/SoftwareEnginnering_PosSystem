@@ -10,22 +10,23 @@ import java.util.Vector;
 public class ItemDAO {
 
     //상품 등록
-    public  void createItem(String itemName, int price, int stock) {
+    public  boolean createItem(String itemName, int price, int stock) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
+        int result = 0;
         try {
             connection = DBConnectionPoolMgr.geteDataSource().getConnection();
 
             StringBuffer cQuery = new StringBuffer();
             if(isItemExist(connection, preparedStatement, itemName)){
-                return;
+                return false;
             } else {
                 cQuery.append("INSERT INTO item(item_name, item_price, item_stock) values(?,?,?)");
                 preparedStatement = connection.prepareStatement(cQuery.toString());
                 preparedStatement.setString(1, itemName);
                 preparedStatement.setInt(2, price);
                 preparedStatement.setInt(3, stock);
-                preparedStatement.executeUpdate();
+                result = preparedStatement.executeUpdate();
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -38,6 +39,7 @@ public class ItemDAO {
                 e.printStackTrace();
             }
         }
+        return result > 0 ? true : false;
     }
 
     //상품 내역 조회

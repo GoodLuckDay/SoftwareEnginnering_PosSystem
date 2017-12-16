@@ -68,11 +68,10 @@ public class UI_ItemList extends JFrame {
 		this.setResizable(false);
 		this.setSize(770, 500);
 		this.setVisible(true);
-
-		updateTableModel();
 	}
 
 	public void updateTableModel(){
+		rows = itemListDTO.getItemListData();
 		table.setModel(new DefaultTableModel(rows,cols){
 			@Override
 			public boolean isCellEditable(int row, int column) {
@@ -99,6 +98,9 @@ public class UI_ItemList extends JFrame {
 			complete.setFont(new Font("굴림", Font.PLAIN, 24));
 			complete.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					itemListDTO.addItem(text_name.getText(), Integer.parseInt(text_price.getText()), Integer.parseInt(text_quantity.getText()));
+					updateTableModel();
+					dispose();
 				}
 			});
 			complete.setBounds(393, 30, 190, 63);
@@ -126,7 +128,6 @@ public class UI_ItemList extends JFrame {
 			text_name = new JTextField();
 			text_name.setHorizontalAlignment(SwingConstants.CENTER);
 			text_name.setFont(new Font("굴림", Font.PLAIN, 20));
-			text_name.setText("\uC815\uC724\uC218");
 			panel.add(text_name);
 			text_name.setColumns(10);
 
@@ -137,7 +138,6 @@ public class UI_ItemList extends JFrame {
 			text_quantity = new JTextField();
 			text_quantity.setHorizontalAlignment(SwingConstants.RIGHT);
 			text_quantity.setFont(new Font("굴림", Font.PLAIN, 20));
-			text_quantity.setText("10");
 			panel.add(text_quantity);
 			text_quantity.setColumns(10);
 
@@ -147,7 +147,6 @@ public class UI_ItemList extends JFrame {
 			panel.add(item_price);
 			text_price = new JTextField();
 			text_price.setHorizontalAlignment(SwingConstants.RIGHT);
-			text_price.setText("39,800\uC6D0");
 			text_price.setFont(new Font("굴림", Font.PLAIN, 20));
 			panel.add(text_price);
 			text_price.setColumns(10);

@@ -16,6 +16,7 @@ public class ItemListDTO {
 
     public Vector getItemListData(){
         Vector data = new Vector();
+        items = itemDAO.getItemList();
         for(int i=0; i<items.size(); i++){
             Vector tempVector = new Vector();
             ItemDTO tempItemDTO = items.get(i);
@@ -25,5 +26,9 @@ public class ItemListDTO {
             data.add(tempVector);
         }
         return data;
+    }
+
+    public boolean addItem(String itemName, int itemPrice, int itemStock){
+        return itemDAO.createItem(itemName, itemPrice, itemStock);
     }
 }
