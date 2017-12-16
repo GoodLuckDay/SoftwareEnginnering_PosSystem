@@ -21,3 +21,7 @@ SoftwareEnginnering Term Project
 >   * mysql-connector-java5.1.6
 >
 > **2. Item Table**
+>   * create table item(item_name varchar(10), item_price int, item_stock int primary key(item_name)); <br>
+>
+> **3. saledItem**
+>   * create talbe saledItem(paymentTime datetime, saledItem_name, saledItem_count, saledItem_price); 
