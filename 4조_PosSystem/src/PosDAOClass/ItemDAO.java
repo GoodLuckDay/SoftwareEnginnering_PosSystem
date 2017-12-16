@@ -39,7 +39,7 @@ public class ItemDAO {
     }
 
     //상품 등록
-    public static void createItem(String itemName, int price, int stock) {
+    public  void createItem(String itemName, int price, int stock) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try {
@@ -70,7 +70,7 @@ public class ItemDAO {
     }
 
     //상품 내역 조회
-    public static void getItemList() {
+    public  void getItemList() {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try {
@@ -101,7 +101,7 @@ public class ItemDAO {
     }
 
     //상품 상세 조회
-    public static void getDetatilItemInfo(String itemName) {
+    public  void getDetatilItemInfo(String itemName) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try {
@@ -133,7 +133,7 @@ public class ItemDAO {
         }
     }
 
-    public static void deleteItemInfo(String itemName){
+    public  void deleteItemInfo(String itemName){
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try {
@@ -161,7 +161,7 @@ public class ItemDAO {
         }
     }
 
-    public static void updateItemInfo(String itemName, String newItemName, int itemPrice, int itemStock){
+    public  void updateItemInfo(String itemName, String newItemName, int itemPrice, int itemStock){
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try {
@@ -192,7 +192,7 @@ public class ItemDAO {
         }
     }
 
-    private static boolean isItemExist(Connection connection, PreparedStatement preparedStatement, String itemName) throws Exception{
+    private boolean isItemExist(Connection connection, PreparedStatement preparedStatement, String itemName) throws Exception{
         StringBuffer query = new StringBuffer();
         query.append("SELECT IFNULL(MAX('Y'), 'N') AS item_exist_yn FROM item WHERE item_name = '" + itemName + "'");
         preparedStatement = connection.prepareStatement(query.toString());
@@ -202,7 +202,7 @@ public class ItemDAO {
         return itemExistYn.equals("Y") ? true : false;
     }
 
-    private static void closeConnectionAndStmt(Connection connection, PreparedStatement preparedStatement) throws SQLException {
+    private void closeConnectionAndStmt(Connection connection, PreparedStatement preparedStatement) throws SQLException {
         if (preparedStatement != null) {
             preparedStatement.close();
         }
@@ -211,12 +211,12 @@ public class ItemDAO {
         }
     }
 
-    public static void main(String[] args) {
-        for(int i=0; i<10; i++){
-            createItem("오레오"+i, 1200, 5);
-        }
+//    public static void main(String[] args) {
+//        for(int i=0; i<10; i++){
+//            createItem("오레오"+i, 1200, 5);
+//        }
 //        deleteItemInfo("오레오5");
-        updateItemInfo("오레오5", "GOD", 444, 444);
-        getItemList();
-    }
+//        updateItemInfo("오레오5", "GOD", 444, 444);
+//        getItemList();
+//    }
 }
