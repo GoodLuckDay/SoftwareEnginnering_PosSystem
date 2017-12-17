@@ -20,6 +20,7 @@ public class ItemListDTO {
         for(int i=0; i<items.size(); i++){
             Vector tempVector = new Vector();
             ItemDTO tempItemDTO = items.get(i);
+            tempVector.add(i+1);
             tempVector.add(tempItemDTO.getItemName());
             tempVector.add(tempItemDTO.getItemPrice());
             tempVector.add(tempItemDTO.getItemStock());
