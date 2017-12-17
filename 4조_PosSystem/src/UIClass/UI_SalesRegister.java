@@ -24,7 +24,8 @@ public class UI_SalesRegister extends JFrame {
 		getContentPane().add(okButton);	
 		okButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				// 테이블에 값을 집어 넣는다.
+			
+				
 			}
 		});
 		
