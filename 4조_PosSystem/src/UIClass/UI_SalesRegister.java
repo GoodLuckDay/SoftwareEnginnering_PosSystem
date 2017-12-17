@@ -3,6 +3,9 @@ package UIClass;
 import javax.swing.JFrame;
 import javax.swing.JButton;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
@@ -18,12 +21,22 @@ public class UI_SalesRegister extends JFrame {
 		JButton okButton = new JButton("확 인");
 		okButton.setFont(new Font("나눔고딕", Font.BOLD, 19));
 		okButton.setBounds(592, 12, 146, 55);
-		getContentPane().add(okButton);
+		getContentPane().add(okButton);	
+		okButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				// 테이블에 값을 집어 넣는다.
+			}
+		});
 		
 		JButton cancelButton = new JButton("취 소");
 		cancelButton.setFont(new Font("나눔고딕", Font.BOLD, 19));
 		cancelButton.setBounds(592, 79, 146, 55);
 		getContentPane().add(cancelButton);
+		cancelButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				dispose();
+			}
+		});
 		
 		JLabel ITEMID = new JLabel("물품 번호");
 		ITEMID.setHorizontalAlignment(SwingConstants.CENTER);
