@@ -6,6 +6,7 @@ import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 
 import java.awt.event.ActionListener;
+import java.util.Vector;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
 
@@ -14,6 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
@@ -23,10 +25,14 @@ import javax.swing.JTextField;
 
 
 public class UI_SalesMonitor extends JFrame {
+	private final JPanel listPanel;
 	private final JButton exitButton = new JButton("취소");
 	private final JButton registButton = new JButton("등록");
-	private final JScrollPane scrollView;
-	private final JTable jTable = new JTable();
+	private final Vector<String> userColumn = new Vector<String>();
+	private  JScrollPane scrollView;
+	private  JTable jTable;	
+	private DefaultTableModel model;
+	private Vector<String> userRow;
 	private JTextField chargedMoney;
 	private JTextField receivedMoney;
 	private JTextField remainedMoney;
@@ -57,21 +63,37 @@ public class UI_SalesMonitor extends JFrame {
 		exitButton.setFont(new Font("나눔고딕", Font.BOLD, 20));
 		getContentPane().setLayout(null);
 		getContentPane().add(exitButton);
-		jTable.setModel(new DefaultTableModel(
-			new Object[][] {
-				{"1", "GOD", "2", "4500"},
-			},
-			new String[] {
-				"\uBB3C\uD488\uBC88\uD638", "\uBB3C\uD488 \uC774\uB984", "\uBB3C\uD488 \uC218\uB7C9", "\uAC00\uACA9"
-			}
-		));
-
-		scrollView = new JScrollPane(jTable);
-		scrollView.setBounds(40, 35, 870, 340);
-//		scroll.setSize(870, 200);
-		scrollView.setPreferredSize(new Dimension(200, 60));
-		getContentPane().add(scrollView);
 		
+		
+		userColumn.addElement("물품 번호");
+		userColumn.addElement("물품 이름");
+		userColumn.addElement("물품 수량");
+		userColumn.addElement("물품 가격");
+		model = new DefaultTableModel(userColumn, 0);		
+		
+		jTable = new JTable(model);
+		jTable.setFillsViewportHeight(true);
+		jTable.setBounds(0,  0,  860, 300);
+		scrollView = new JScrollPane(jTable);	
+		
+		listPanel = new JPanel();
+		listPanel.setBounds(30, 30, 860, 300);
+		listPanel.add(scrollView);
+		scrollView.setBounds(0, 0, 860, 300);
+		listPanel.setLayout(null);
+		getContentPane().add(listPanel);
+		
+		//임의로 값을 주가해봄
+		userRow = new Vector<String>();
+		userRow.addElement("1");
+		userRow.addElement("2");
+		userRow.addElement("3");
+		userRow.addElement("4");
+		model.addRow(userRow);
+		
+		
+		
+			
 		chargedMoney = new JTextField();
 		chargedMoney.setBounds(692, 387, 225, 19);
 		getContentPane().add(chargedMoney);
@@ -104,5 +126,7 @@ public class UI_SalesMonitor extends JFrame {
 		this.setSize(950, 500);
 		this.setVisible(true);
 	}
+	
+	
 
 }
