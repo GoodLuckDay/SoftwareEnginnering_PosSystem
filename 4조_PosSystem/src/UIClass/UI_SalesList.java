@@ -6,7 +6,10 @@ import javax.swing.JTable;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
+
 import java.awt.Color;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 
 public class UI_SalesList extends JFrame {
@@ -14,11 +17,17 @@ public class UI_SalesList extends JFrame {
 	private JScrollPane scroll;
 	public UI_SalesList() {
 		getContentPane().setLayout(null);
+		exitButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new UI_MainMenu();
+				dispose();
+			}
+		});
 		exitButton.setBounds(747, 365, 117, 50);
 		getContentPane().add(exitButton);
 		
-		JTable jtable = new JTable();
-		scroll = new JScrollPane(jtable);
+		JTable jtableView = new JTable();
+		scroll = new JScrollPane(jtableView);
 		scroll.setLocation(28, 76);
 		scroll.setSize(710, 342);
 		getContentPane().add(scroll);
@@ -43,20 +52,26 @@ public class UI_SalesList extends JFrame {
 		lblwjd.setBounds(30, 0, 91, 59);
 		panel_1.add(lblwjd);
 		
-		JButton btnDlf = new JButton("일");
-		btnDlf.setBounds(0, 45, 115, 50);
-		panel_1.add(btnDlf);
+		JButton dayBtn = new JButton("일");
+		dayBtn.setBounds(0, 45, 115, 50);
+		panel_1.add(dayBtn);
 		
-		JButton button = new JButton("주");
-		button.setBounds(0, 95, 115, 50);
-		panel_1.add(button);
+		JButton weekBtn = new JButton("주");
+		weekBtn.setBounds(0, 95, 115, 50);
+		panel_1.add(weekBtn);
 		
-		JButton button_1 = new JButton("월");
-		button_1.setBounds(0, 145, 115, 50);
-		panel_1.add(button_1);
+		JButton monthBtn = new JButton("월");
+		monthBtn.setBounds(0, 145, 115, 50);
+		panel_1.add(monthBtn);
 		
-		JButton button_2 = new JButton("월");
-		button_2.setBounds(0, 195, 115, 50);
-		panel_1.add(button_2);
+		JButton quaterBtn = new JButton("분기");
+		quaterBtn.setBounds(0, 195, 115, 50);
+		panel_1.add(quaterBtn);
+		this.setResizable(false);
+		this.setSize(900, 500);
+		this.setVisible(true);
 	}
+//	public static void main(String[] args){
+//		new UI_SalesList();
+//	}
 }
