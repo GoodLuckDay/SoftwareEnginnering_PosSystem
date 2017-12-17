@@ -10,7 +10,9 @@ import java.util.Vector;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
 
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
@@ -25,11 +27,11 @@ import javax.swing.JTextField;
 
 
 public class UI_SalesMonitor extends JFrame {
-	private final JPanel listPanel;
 	private final JButton exitButton = new JButton("취소");
 	private final JButton registButton = new JButton("등록");
 	private final Vector<String> userColumn = new Vector<String>();
-	private  JScrollPane scrollView;
+	private final JPanel listPanel;
+	private  JScrollPane scrollView;	
 	private  JTable jTable;	
 	private DefaultTableModel model;
 	private Vector<String> userRow;
@@ -82,6 +84,14 @@ public class UI_SalesMonitor extends JFrame {
 		scrollView.setBounds(0, 0, 860, 300);
 		listPanel.setLayout(null);
 		getContentPane().add(listPanel);
+		
+		DefaultTableCellRenderer dter = new DefaultTableCellRenderer();
+		dter.setHorizontalAlignment(SwingConstants.CENTER);
+		TableColumnModel tcm = jTable.getColumnModel();
+		
+		for ( int i = 0; i < tcm.getColumnCount(); i++ ) {
+			tcm.getColumn(i).setCellRenderer(dter);
+		}
 		
 		//임의로 값을 주가해봄
 		userRow = new Vector<String>();
