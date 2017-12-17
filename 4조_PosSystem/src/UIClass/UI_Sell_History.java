@@ -53,7 +53,13 @@ public class UI_Sell_History extends JFrame {
 		listPanel.setBounds(30, 30, 710, 300);
 		scrollView.setBounds(0, 0, 710, 300);
 		
-	
+		DefaultTableCellRenderer dter = new DefaultTableCellRenderer();
+		dter.setHorizontalAlignment(SwingConstants.CENTER);
+		TableColumnModel tcm = table.getColumnModel();
+		
+		for ( int i = 0; i < tcm.getColumnCount(); i++ ) {
+			tcm.getColumn(i).setCellRenderer(dter);
+		}
 		
 		
 		getContentPane().add(listPanel);
