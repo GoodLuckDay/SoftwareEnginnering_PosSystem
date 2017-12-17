@@ -32,4 +32,8 @@ public class ItemListDTO {
     public boolean addItem(String itemName, int itemPrice, int itemStock){
         return itemDAO.createItem(itemName, itemPrice, itemStock);
     }
+
+    public ItemDTO getItemInfo(int itemNo){
+        return items.get(itemNo);
+    }
 }
