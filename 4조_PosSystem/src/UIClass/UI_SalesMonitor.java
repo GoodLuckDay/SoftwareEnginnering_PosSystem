@@ -24,6 +24,7 @@ import javax.swing.JTextField;
 
 public class UI_SalesMonitor extends JFrame {
 	private final JButton exitButton = new JButton("취소");
+	private final JButton registButton = new JButton("등록");
 	private final JScrollPane scrollView;
 	private final JTable jTable = new JTable();
 	private JTextField chargedMoney;
@@ -32,9 +33,20 @@ public class UI_SalesMonitor extends JFrame {
 	private JLabel chagedMoneylabel;
 	private JLabel receivedMoneylabel;
 	private JLabel remainedMoneylabel;
+
 	public UI_SalesMonitor() {
 		setResizable(false);
 		setTitle("판매 화면");
+
+		registButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				new UI_SalesRegister();
+			}
+		});
+		registButton.setFont(new Font("나눔고딕", Font.BOLD, 20));
+		registButton.setBounds(191, 385, 120, 50);
+		getContentPane().add(registButton);
+		
 		exitButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				new UI_MainMenu();
@@ -76,21 +88,21 @@ public class UI_SalesMonitor extends JFrame {
 		getContentPane().add(remainedMoney);
 		
 		chagedMoneylabel = new JLabel("총 금액");
-		chagedMoneylabel.setBounds(637, 387, 106, 15);
+		chagedMoneylabel.setBounds(594, 391, 106, 15);
 		getContentPane().add(chagedMoneylabel);
 		
 		receivedMoneylabel = new JLabel("받은 금액");
-		receivedMoneylabel.setBounds(637, 404, 106, 15);
+		receivedMoneylabel.setBounds(594, 408, 106, 15);
 		getContentPane().add(receivedMoneylabel);
 		
 		remainedMoneylabel = new JLabel("거스름 돈");
-		remainedMoneylabel.setBounds(637, 422, 106, 15);
+		remainedMoneylabel.setBounds(594, 426, 106, 15);
 		getContentPane().add(remainedMoneylabel);
+		
+		
 		this.setResizable(false);
 		this.setSize(950, 500);
 		this.setVisible(true);
 	}
-//	public static void main(String[] args){
-//		new UI_SalesMonitor();
-//	}
+
 }
