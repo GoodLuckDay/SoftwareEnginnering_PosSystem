@@ -29,6 +29,10 @@ public class ItemListDTO {
         return data;
     }
 
+    public boolean deleteItemInfo(String itemName){
+        return itemDAO.deleteItemInfo(itemName);
+    }
+
     public boolean addItem(String itemName, int itemPrice, int itemStock){
         return itemDAO.createItem(itemName, itemPrice, itemStock);
     }

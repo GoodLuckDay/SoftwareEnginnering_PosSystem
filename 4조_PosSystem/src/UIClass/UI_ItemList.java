@@ -177,6 +177,7 @@ public class UI_ItemList extends JFrame {
 			change.setFont(new Font("굴림", Font.PLAIN, 24));
 			change.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					dispose();
 				}
 			});
 			change.setBounds(411, 77, 190, 63);
@@ -186,7 +187,9 @@ public class UI_ItemList extends JFrame {
 			delete.setFont(new Font("굴림", Font.PLAIN, 24));
 			delete.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-
+					itemListDTO.deleteItemInfo(itemName);
+					updateTableModel();
+					dispose();
 				}
 			});
 			delete.setBounds(411, 178, 190, 63);
