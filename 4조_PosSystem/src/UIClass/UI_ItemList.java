@@ -177,6 +177,9 @@ public class UI_ItemList extends JFrame {
 			change.setFont(new Font("굴림", Font.PLAIN, 24));
 			change.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					itemListDTO.updateItemInfo(itemName, text_name.getText(), Integer.parseInt(text_price.getText())
+							, Integer.parseInt(text_quantity.getText()));
+					updateTableModel();
 					dispose();
 				}
 			});
@@ -218,6 +221,7 @@ public class UI_ItemList extends JFrame {
 			text_num = new JTextField();
 			text_num.setHorizontalAlignment(SwingConstants.RIGHT);
 			text_num.setText(String.valueOf(itemNo+1));
+			text_num.setEditable(false);
 			text_num.setFont(new Font("굴림", Font.PLAIN, 20));
 			panel.add(text_num);
 			text_num.setColumns(10);

@@ -22,11 +22,14 @@ public class ItemListDTO {
             ItemDTO tempItemDTO = items.get(i);
             tempVector.add(i+1);
             tempVector.add(tempItemDTO.getItemName());
-            tempVector.add(tempItemDTO.getItemPrice());
             tempVector.add(tempItemDTO.getItemStock());
+            tempVector.add(tempItemDTO.getItemPrice());
             data.add(tempVector);
         }
         return data;
+    }
+    public void updateItemInfo(String oldItemName, String updatedItemName, int updatedItemPrice, int updatedItemStock){
+        itemDAO.updateItemInfo(oldItemName, updatedItemName, updatedItemPrice, updatedItemStock);
     }
 
     public boolean deleteItemInfo(String itemName){
