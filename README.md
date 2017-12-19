@@ -18,7 +18,6 @@ SoftwareEnginnering Term Project
 4. 그 후 아래에 명시 되어 있는 테이블들을 생성을 해주세요. (아래에 있는것들 복붙 하시면 됩니다.)
 5. 마지막으로 DBCP 패키지의 DBConnectionPoolMgr 클래스에서 주석이 붙어있는곳을 건드려 주시면 됩니다.
 
-
 ## Apache common DBCP
 >**1. 설치 라이브러리** 
 >   * commons-dpcp2-2.1.1.jar<br>
@@ -30,8 +29,8 @@ SoftwareEnginnering Term Project
 >   * mysql-connector-java5.1.6
 >
 > **2. Item Table**
->   * create table item(item_name varchar(10), item_price int, item_stock int primary key(item_name)); <br>
+>   * create table item(item_name varchar(10), item_price int, item_stock int, primary key(item_name)); <br>
 >
 > **3. saledItem**
->   * create talbe saledItem(paymentTime datetime, saledItem_name, saledItem_count, saledItem_price); 
+>   * create table saledItem(paymentTime datetime, saledItem_name varchar(10), saledItem_count int, saledItem_price int); 
 
