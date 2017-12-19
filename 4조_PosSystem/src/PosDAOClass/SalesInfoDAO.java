@@ -8,7 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class SalesInfoDAO {
-    public static void createSaleInfo(String currentTime, int totalCost, SaledItemDAO[] items) {
+    public static void createSaleInfo(String currentTime, int totalCost, SaledItemDTO[] items) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try {
