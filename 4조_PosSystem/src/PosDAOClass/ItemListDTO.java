@@ -5,8 +5,8 @@ import java.util.Vector;
 
 public class ItemListDTO {
     private ItemDAO itemDAO = null;
-    private ArrayList<ItemDTO> items = null;
     private int itemNo;
+    public ArrayList<ItemDTO> items = null;
 
     public ItemListDTO(){
         itemDAO = new ItemDAO();
