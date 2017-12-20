@@ -181,21 +181,25 @@ public class UI_SalesMonitor extends JFrame {
                     int id = Integer.parseInt(itemid.getText());
                     int count = Integer.parseInt(quantity.getText());
 
-                    ItemDTO tempItemDTO = items.get(id - 1);
-
-                    if (count <= tempItemDTO.getItemStock()) {
-                        tempVector.add(id);
-                        tempVector.add(tempItemDTO.getItemName());
-                        tempVector.add(count);
-                        tempVector.add(tempItemDTO.getItemPrice());
-
-                        model.addRow(tempVector);
-                        int price = Integer.parseInt(chargedMoney.getText()) + count * tempItemDTO.getItemPrice();
-                        chargedMoney.setText(price + "");
-
-                        msg.setText("");
+                    if (items.size() <= id) {
+                        msg.setText("등록 되지 않은 제품 번호 입니다. ");
                     } else {
-                        msg.setText("현재 보유한 재고량보다 신청한 수량이 많습니다.");
+                        ItemDTO tempItemDTO = items.get(id - 1);
+                        if (count <= tempItemDTO.getItemStock()) {
+
+                            tempVector.add(id);
+                            tempVector.add(tempItemDTO.getItemName());
+                            tempVector.add(count);
+                            tempVector.add(tempItemDTO.getItemPrice());
+
+                            model.addRow(tempVector);
+                            int price = Integer.parseInt(chargedMoney.getText()) + count * tempItemDTO.getItemPrice();
+                            chargedMoney.setText(price + "");
+
+                            msg.setText("");
+                        } else {
+                            msg.setText("현재 보유한 재고량보다 신청한 수량이 많습니다.");
+                        }
                     }
 
                 }
@@ -285,7 +289,7 @@ public class UI_SalesMonitor extends JFrame {
                     SimpleDateFormat dayTime = new SimpleDateFormat("yyyy-mm-dd hh:mm");
                     String currentTime = dayTime.format(new Date(time));
                     int money = Integer.parseInt(itemid.getText());
-                    salesInfoDAO.createSaleInfo(currentTime,money,saledItemDTOS);
+                    salesInfoDAO.createSaleInfo(currentTime, money, saledItemDTOS);
                     receivedMoney.setText(money + "");
                     money = money - Integer.parseInt(chargedMoney.getText());
                     remainedMoney.setText(money + "");
