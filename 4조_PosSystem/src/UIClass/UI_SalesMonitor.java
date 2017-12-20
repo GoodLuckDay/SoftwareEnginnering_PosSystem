@@ -101,31 +101,26 @@ public class UI_SalesMonitor extends JFrame {
 		for ( int i = 0; i < tcm.getColumnCount(); i++ ) {
 			tcm.getColumn(i).setCellRenderer(dter);
 		}
-		
-		//임의로 값을 주가해봄
-		userRow = new Vector<String>();
-		userRow.addElement("1");
-		userRow.addElement("2");
-		userRow.addElement("3");
-		userRow.addElement("4");
-		model.addRow(userRow);
-		
-		
-		
 			
 		chargedMoney = new JTextField();
+		chargedMoney.setHorizontalAlignment(SwingConstants.RIGHT);
+		chargedMoney.setText("0");
 		chargedMoney.setBounds(692, 387, 225, 19);
 		getContentPane().add(chargedMoney);
 		chargedMoney.setColumns(10);
 		
 		receivedMoney = new JTextField();
+		receivedMoney.setHorizontalAlignment(SwingConstants.RIGHT);
 		receivedMoney.setColumns(10);
 		receivedMoney.setBounds(692, 404, 225, 19);
+		receivedMoney.setText("0");
 		getContentPane().add(receivedMoney);
 		
 		remainedMoney = new JTextField();
+		remainedMoney.setHorizontalAlignment(SwingConstants.RIGHT);
 		remainedMoney.setColumns(10);
 		remainedMoney.setBounds(692, 422, 225, 19);
+		remainedMoney.setText("0");
 		getContentPane().add(remainedMoney);
 		
 		chagedMoneylabel = new JLabel("총 금액");
@@ -179,7 +174,11 @@ public class UI_SalesMonitor extends JFrame {
 				            tempVector.add(tempItemDTO.getItemName());				           
 				            tempVector.add(count);
 				            tempVector.add(tempItemDTO.getItemPrice());
+
 				            model.addRow(tempVector);
+				            int price = Integer.parseInt(chargedMoney.getText()) + count*tempItemDTO.getItemPrice();
+				            chargedMoney.setText(price+"");
+				    		
 				            msg.setText("");
 			         } 
 					 else {
