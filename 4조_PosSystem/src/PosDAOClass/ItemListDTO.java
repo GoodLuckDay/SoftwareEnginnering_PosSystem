@@ -32,6 +32,9 @@ public class ItemListDTO {
         itemDAO.updateItemInfo(oldItemName, updatedItemName, updatedItemPrice, updatedItemStock);
     }
 
+    public void purChaseItem(String itemName, int itemCount){
+        itemDAO.buyItem(itemName, itemCount);
+    }
     public boolean deleteItemInfo(String itemName){
         return itemDAO.deleteItemInfo(itemName);
     }
