@@ -27,34 +27,35 @@ import java.awt.SystemColor;
 public class UI_SalesList extends JFrame {
     private Vector<String> Column = new Vector<String>();
     private SalesInfoDAO salesInfoDAO = new SalesInfoDAO();
+    private TableColumnModel tcm  = null;
     private Vector<String> Row;
     private JScrollPane scroll;
     private DefaultTableModel model;
-    private JLabel button_bar = new JLabel("기간 설정");
-    private JButton dayBtn = new JButton("일");
-    private JButton weekBtn = new JButton("주");
-    private JButton monthBtn = new JButton("월");
-    private JButton quaterBtn = new JButton("분기");
-    private JButton exitButton = new JButton("취소");
+    private JLabel button_bar = new JLabel("湲곌컙 꽕젙");
+    private JButton dayBtn = new JButton("씪");
+    private JButton weekBtn = new JButton("二");
+    private JButton monthBtn = new JButton("썡");
+    private JButton quaterBtn = new JButton("遺꾧린");
+    private JButton exitButton = new JButton("痍⑥냼");
 
     public UI_SalesList() {
         getContentPane().setLayout(null);
 
-        //상단 panel
+        //긽떒 panel
         JPanel panel = new JPanel();
         panel.setBounds(30, 30, 710, 40);
         getContentPane().add(panel);
         panel.setBorder(new LineBorder(Color.LIGHT_GRAY, 2));
         panel.setLayout(null);
 
-        JLabel label1 = new JLabel("매출 기간 단위 : ");
-        label1.setFont(new Font("나눔고딕", Font.BOLD, 12));
+        JLabel label1 = new JLabel("留ㅼ텧 湲곌컙 떒쐞 : ");
+        label1.setFont(new Font("굹닎怨좊뵓", Font.BOLD, 12));
         label1.setBounds(12, 12, 92, 15);
         panel.add(label1);
 
-        JLabel credit = new JLabel("일");
+        JLabel credit = new JLabel("씪");
         credit.setForeground(SystemColor.textHighlight);
-        credit.setFont(new Font("나눔고딕", Font.BOLD, 12));
+        credit.setFont(new Font("굹닎怨좊뵓", Font.BOLD, 12));
         credit.setBounds(98, 11, 62, 16);
         panel.add(credit);
 
@@ -65,11 +66,11 @@ public class UI_SalesList extends JFrame {
         panel_1.setLayout(null);
 
 
-        //버튼들 정의와 이벤트 처리
+        //踰꾪듉뱾 젙쓽 씠踰ㅽ듃 泥섎━
         button_bar.setBounds(0, 0, 115, 50);
         panel_1.add(button_bar);
         button_bar.setForeground(Color.BLACK);
-        button_bar.setFont(new Font("나눔고딕", Font.BOLD, 14));
+        button_bar.setFont(new Font("굹닎怨좊뵓", Font.BOLD, 14));
         button_bar.setHorizontalAlignment(SwingConstants.CENTER);
 
         exitButton.addActionListener(new ActionListener() {
@@ -84,86 +85,94 @@ public class UI_SalesList extends JFrame {
         panel_1.add(dayBtn);
 
 
-        weekBtn.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                credit.setText("주");
-            }
-        });
         weekBtn.setBounds(0, 95, 115, 50);
         panel_1.add(weekBtn);
 
 
-        monthBtn.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                credit.setText("월");
-            }
-        });
         monthBtn.setBounds(0, 145, 115, 50);
         panel_1.add(monthBtn);
 
-
-        quaterBtn.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                credit.setText("분기");
-            }
-        });
         quaterBtn.setBounds(0, 195, 115, 50);
         panel_1.add(quaterBtn);
 
 
-        //하단 panel(판매내역 리스트 실제 출력 위치)
+        //븯떒 panel(뙋留ㅻ궡뿭 由ъ뒪듃 떎젣 異쒕젰 쐞移)
         JPanel panel_2 = new JPanel();
-        panel_2.setBorder(new
-
-                LineBorder(Color.LIGHT_GRAY));
+        panel_2.setBorder(new LineBorder(Color.LIGHT_GRAY));
         panel_2.setBounds(30, 75, 710, 350);
         panel_2.setLayout(null);
 
-        Column.addElement("기 간");
-        Column.addElement("총 액");
+        Column.addElement("湲 媛");
+        Column.addElement("珥 븸");
 
-        model = new
-
-                DefaultTableModel(Column, 0);
+        model = new DefaultTableModel(Column, 0);
 
         JTable jtableView = new JTable(model);
-        scroll = new
-
-                JScrollPane(jtableView);
+        scroll = new JScrollPane(jtableView);
         scroll.setBounds(0, 0, 710, 350);
         panel_2.add(scroll);
 
-        getContentPane().
-
-                add(panel_2);
+        getContentPane().add(panel_2);
 
         DefaultTableCellRenderer dterCenter = new DefaultTableCellRenderer();
         DefaultTableCellRenderer dterRight = new DefaultTableCellRenderer();
         dterCenter.setHorizontalAlignment(SwingConstants.CENTER);
         dterRight.setHorizontalAlignment(SwingConstants.RIGHT);
-        TableColumnModel tcm = jtableView.getColumnModel();
+        
+        tcm = jtableView.getColumnModel();
+        tcm.getColumn(0).setCellRenderer(dterCenter);
+        tcm.getColumn(1).setCellRenderer(dterRight);
 
-        tcm.getColumn(0).
+        //default (씪)
+        ArrayList<SaledItemDTO> list = salesInfoDAO.getAllItem();
 
-                setCellRenderer(dterCenter);
-        tcm.getColumn(1).
+        SaledItemDTO items = null;
+        String o_time = "";
+        int totalprice = 0;
+        String one_time = "";
+        String two_time = "";
+        Vector row = new Vector();
+        int listNum = 1;
+        for( int i = 0; i < list.size(); i++ ) {
+            items = list.get(i);
+            o_time = items.getPayTime();
+            if ( i == 0 ) {
+                totalprice = items.getTotalPrice();
+                one_time = o_time.substring(0, 10);
 
-                setCellRenderer(dterRight);
+            }
+            else {
+                // 2017-12-12 12:12:00
+                two_time = o_time.substring(0, 10);
+                if ( one_time.equals(two_time) ) {
+                    totalprice += items.getTotalPrice();
 
+                }
+                else {
+                    row.add(one_time);
+                    row.add(totalprice);
+                    model.addRow(row);
+                    row = new Vector();
 
-        Row = new Vector<String>();
-        Row.addElement("17년 10월");
-        Row.addElement("1,400,000 (원)");
-        model.addRow(Row);
+                    one_time = two_time;
+                    totalprice = items.getTotalPrice();
+                }
 
-        this.setTitle("매출 조회");
+            }
+        }
+        row.add(one_time);
+        row.add(totalprice);
+        model.addRow(row);
+        row = new Vector();
+        
+        this.setTitle("留ㅼ텧 議고쉶");
         this.setResizable(false);
         this.setSize(900, 500);
         this.setVisible(true);
 
         dayBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                credit.setText("일");
+                credit.setText("씪");
                 model = new DefaultTableModel(Column, 0);
                 jtableView.setModel(model);
 
@@ -207,6 +216,138 @@ public class UI_SalesList extends JFrame {
                 row.add(totalprice);
                 model.addRow(row);
                 row = new Vector();
+                
+                tcm = jtableView.getColumnModel();
+                tcm.getColumn(0).setCellRenderer(dterCenter);
+                tcm.getColumn(1).setCellRenderer(dterRight);
+                
+            }
+     
+        });
+        
+        weekBtn.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                credit.setText("二");
+            }
+        });
+        
+        monthBtn.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                credit.setText("썡");
+                
+                model = new DefaultTableModel(Column, 0);
+                jtableView.setModel(model);
+
+                ArrayList<SaledItemDTO> list = salesInfoDAO.getAllItem();
+
+                SaledItemDTO items = null;
+                String o_time = "";
+                int totalprice = 0;
+                String one_time = "";
+                String two_time = "";
+                Vector row = new Vector();
+                int listNum = 1;
+                for( int i = 0; i < list.size(); i++ ) {
+                    items = list.get(i);
+                    o_time = items.getPayTime();
+                    if ( i == 0 ) {
+                        totalprice = items.getTotalPrice();
+                        one_time = o_time.substring(0, 7);
+
+                    }
+                    else {
+                        // 2017-12-12 12:12:00
+                        two_time = o_time.substring(0, 7);
+                        if ( one_time.equals(two_time) ) {
+                            totalprice += items.getTotalPrice();
+
+                        }
+                        else {
+                            row.add(one_time);
+                            row.add(totalprice);
+                            model.addRow(row);
+                            row = new Vector();
+
+                            one_time = two_time;
+                            totalprice = items.getTotalPrice();
+                        }
+
+                    }
+                }
+                row.add(one_time);
+                row.add(totalprice);
+                model.addRow(row);
+                row = new Vector();
+                
+                tcm = jtableView.getColumnModel();
+                tcm.getColumn(0).setCellRenderer(dterCenter);
+                tcm.getColumn(1).setCellRenderer(dterRight);
+            }
+        });
+        
+        quaterBtn.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                credit.setText("遺꾧린");
+
+                model = new DefaultTableModel(Column, 0);
+                jtableView.setModel(model);
+
+                ArrayList<SaledItemDTO> list = salesInfoDAO.getAllItem();
+
+                SaledItemDTO items = null;
+                String o_time = "";
+
+                int totalprice = 0;
+                String quater = "";
+                
+                int one_m_time = -1;
+                String one_y_time = "";
+                int two_m_time = -1;
+                String two_y_time = "";
+                Vector row = new Vector();
+                
+                int listNum = 1;
+                for( int i = 0; i < list.size(); i++ ) {
+                    items = list.get(i);
+                    o_time = items.getPayTime();
+                    if ( i == 0 ) {
+                        totalprice = items.getTotalPrice();
+                        one_y_time = o_time.substring(2, 4);
+                        one_m_time = (Integer.parseInt(o_time.substring(5, 7)) -1 ) / 3 + 1;
+                        quater = one_y_time + "뀈 " + one_m_time  + "遺꾧린";
+                    }
+                    else {
+                        // 2017-12-12 12:12:00
+                    	o_time.substring(5, 7);
+                        two_y_time = o_time.substring(2, 4);
+                        two_m_time = (Integer.parseInt(o_time.substring(5, 7)) -1 ) / 3 + 1;
+                        
+                        if ( one_y_time.equals(two_y_time) && one_m_time == two_m_time) {
+                            totalprice += items.getTotalPrice();
+
+                        }
+                        else {
+                            row.add(quater);
+                            row.add(totalprice);
+                            model.addRow(row);
+                            row = new Vector();
+
+                            quater = two_y_time + "뀈 " + two_m_time + "遺꾧린";
+                            one_y_time = two_y_time;
+                            one_m_time = two_m_time;
+                            totalprice = items.getTotalPrice();
+                        }
+
+                    }
+                }
+                row.add(quater);
+                row.add(totalprice);
+                model.addRow(row);
+                row = new Vector();
+                
+                tcm = jtableView.getColumnModel();
+                tcm.getColumn(0).setCellRenderer(dterCenter);
+                tcm.getColumn(1).setCellRenderer(dterRight);
             }
         });
     }
