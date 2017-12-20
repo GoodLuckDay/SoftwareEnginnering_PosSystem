@@ -36,6 +36,7 @@ import java.util.logging.SimpleFormatter;
 
 
 public class UI_SalesMonitor extends JFrame {
+	
     private final JButton exitButton = new JButton("취소");
     private final JButton registButton = new JButton("등록");
     private final JButton calculateButton = new JButton("계산");
@@ -180,10 +181,10 @@ public class UI_SalesMonitor extends JFrame {
 
                     int id = Integer.parseInt(itemid.getText());
                     int count = Integer.parseInt(quantity.getText());
-
                     if (items.size() < id) {
                         msg.setText("등록 되지 않은 제품 번호 입니다. ");
-                    } else {
+                    }
+                    else {
                         ItemDTO tempItemDTO = items.get(id - 1);
                         if (count <= tempItemDTO.getItemStock()) {
 
@@ -254,10 +255,10 @@ public class UI_SalesMonitor extends JFrame {
         private JTextField itemid;
         private ItemListDTO itemListDTO = new ItemListDTO();
         public UI_Calculate() {
+     	
             getContentPane().setLayout(null);
             this.setSize(580, 200);
             this.setTitle("계산");
-
 
             JButton cancelButton = new JButton("취 소");
             cancelButton.setFont(new Font("나눔고딕", Font.BOLD, 19));
@@ -273,8 +274,7 @@ public class UI_SalesMonitor extends JFrame {
             btnNewButton.setFont(new Font("나눔고딕", Font.BOLD, 20));
             btnNewButton.setBounds(374, 39, 146, 68);
             getContentPane().add(btnNewButton);
-
-            btnNewButton.addActionListener(new ActionListener() {
+	    btnNewButton.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent arg0) {
                     if(Integer.parseInt(chargedMoney.getText()) > Integer.parseInt(itemid.getText())){
                         new UI_SalesMonitor_lack();
@@ -307,6 +307,12 @@ public class UI_SalesMonitor extends JFrame {
             ITEMID.setFont(new Font("나눔고딕", Font.BOLD, 19));
             ITEMID.setBounds(14, 37, 140, 68);
             getContentPane().add(ITEMID);
+            
+            JLabel RECIEVE = new JLabel("받은 금액");
+            RECIEVE.setHorizontalAlignment(SwingConstants.CENTER);
+            RECIEVE.setFont(new Font("나눔고딕", Font.BOLD, 19));
+            RECIEVE.setBounds(14, 37, 140, 68);
+            getContentPane().add(RECIEVE);
 
             itemid = new JTextField();
             itemid.setHorizontalAlignment(SwingConstants.CENTER);
@@ -317,6 +323,7 @@ public class UI_SalesMonitor extends JFrame {
             this.setVisible(true);
         }
     }
+
     class UI_SalesMonitor_lack extends JFrame {
         public UI_SalesMonitor_lack(){
             getContentPane().setLayout(null);
@@ -342,3 +349,4 @@ public class UI_SalesMonitor extends JFrame {
         }
     }
 }
+
