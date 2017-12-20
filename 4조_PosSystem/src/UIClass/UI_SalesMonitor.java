@@ -277,19 +277,19 @@ public class UI_SalesMonitor extends JFrame {
             btnNewButton.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent arg0) {
 
-                    SaledItemDTO[] saledItemDTOS = new SaledItemDTO[jTable.getRowCount()];
+                    SaledInfoDTO[] saledInfoDTOS = new SaledInfoDTO[jTable.getRowCount()];
                     for (int i = 0; i < jTable.getRowCount(); i++) {
                         String itemName = (String) jTable.getValueAt(i, 1);
                         int itemPrice = (int) jTable.getValueAt(i, 2);
                         int itemCount = (int) jTable.getValueAt(i, 3);
-                        saledItemDTOS[i] = new SaledItemDTO(itemName, itemPrice, itemCount);
+                        saledInfoDTOS[i] = new SaledInfoDTO(itemName, itemPrice, itemCount);
                     }
 
                     long time = System.currentTimeMillis();
                     SimpleDateFormat dayTime = new SimpleDateFormat("yyyy-mm-dd hh:mm");
                     String currentTime = dayTime.format(new Date(time));
                     int money = Integer.parseInt(itemid.getText());
-                    salesInfoDAO.createSaleInfo(currentTime, money, saledItemDTOS);
+                    salesInfoDAO.createSaleInfo(currentTime, money, saledInfoDTOS);
                     receivedMoney.setText(money + "");
                     money = money - Integer.parseInt(chargedMoney.getText());
                     remainedMoney.setText(money + "");

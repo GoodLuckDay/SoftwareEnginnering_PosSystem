@@ -1,37 +1,38 @@
 package PosDAOClass;
 
 public class SaledItemDTO {
-    private String itemName;
-    private int itemPrice;
-    private int itemCount;
+    private int saleNum;
 
-    public SaledItemDTO(String itemName, int itemPrice, int itemCount){
-        this.itemName = itemName;
-        this.itemPrice = itemPrice;
-        this.itemCount = itemCount;
+    private String payTime;
+    private int totalPrice;
+
+    public SaledItemDTO(int saleNum, String payTime, int totalPrice) {
+        this.saleNum = saleNum;
+        this.totalPrice = totalPrice;
+        this.payTime = payTime;
     }
 
-    public String getItemName() {
-        return itemName;
+    public String getPayTime() {
+        return payTime;
     }
 
-    public void setItemName(String itemName) {
-        this.itemName = itemName;
+    public void setPayTime(String payTime) {
+        this.payTime = payTime;
     }
 
-    public int getItemPrice() {
-        return itemPrice;
+    public int getTotalPrice() {
+        return totalPrice;
     }
 
-    public void setItemPrice(int itemPrice) {
-        this.itemPrice = itemPrice;
+    public void setTotalPrice(int totalPrice) {
+        this.totalPrice = totalPrice;
     }
 
-    public int getItemCount() {
-        return itemCount;
+    public int getSaleNum() {
+        return saleNum;
     }
 
-    public void setItemCount(int itemCount) {
-        this.itemCount = itemCount;
+    public void setSaleNum(int saleNum) {
+        this.saleNum = saleNum;
     }
 }
