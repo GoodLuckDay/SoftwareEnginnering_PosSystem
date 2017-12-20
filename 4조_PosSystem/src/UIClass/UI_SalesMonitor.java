@@ -7,7 +7,9 @@ import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Vector;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
@@ -16,9 +18,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
-import PosDAOClass.ItemDAO;
-import PosDAOClass.ItemDTO;
-import PosDAOClass.ItemListDTO;
+import PosDAOClass.*;
 
 import javax.swing.JPanel;
 import javax.swing.JLabel;
@@ -32,6 +32,7 @@ import java.awt.GridLayout;
 import javax.swing.Box;
 import javax.swing.JTextField;
 import java.awt.Color;
+import java.util.logging.SimpleFormatter;
 
 
 public class UI_SalesMonitor extends JFrame {
@@ -39,7 +40,9 @@ public class UI_SalesMonitor extends JFrame {
     private final JButton registButton = new JButton("등록");
     private final JButton calculateButton = new JButton("계산");
     private final Vector<String> userColumn = new Vector<String>();
+    private SimpleDateFormat simpleDateFormat;
     private final JPanel listPanel;
+    private SalesInfoDAO salesInfoDAO = new SalesInfoDAO();
     private JScrollPane scrollView;
     private JTable jTable;
     private DefaultTableModel model;
@@ -243,23 +246,14 @@ public class UI_SalesMonitor extends JFrame {
         }
     }
 
-    public class UI_Calculate extends JFrame{
+    public class UI_Calculate extends JFrame {
         private JTextField itemid;
 
         public UI_Calculate() {
             getContentPane().setLayout(null);
             this.setSize(580, 200);
             this.setTitle("계산");
-            JButton okButton = new JButton("확 인");
-            okButton.setFont(new Font("나눔고딕", Font.BOLD, 19));
-            okButton.setBounds(592, 12, 146, 55);
-            getContentPane().add(okButton);
-            okButton.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent arg0) {
-                    //판매 화면에서 총 금액,받은 금액,거스름 돈 을 기입해주고 현재의 정보를 SaledItemDAO에 등록하여 튜플을 추가.
-                    //여기서 추가로 초기화 버튼을 만들어 판매화면의 정보를 초기화 하는 기능을 추가할 것을 추천
-                }
-            });
+
 
             JButton cancelButton = new JButton("취 소");
             cancelButton.setFont(new Font("나눔고딕", Font.BOLD, 19));
@@ -275,6 +269,29 @@ public class UI_SalesMonitor extends JFrame {
             btnNewButton.setFont(new Font("나눔고딕", Font.BOLD, 20));
             btnNewButton.setBounds(374, 39, 146, 68);
             getContentPane().add(btnNewButton);
+
+            btnNewButton.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent arg0) {
+
+                    SaledItemDTO[] saledItemDTOS = new SaledItemDTO[jTable.getRowCount()];
+                    for (int i = 0; i < jTable.getRowCount(); i++) {
+                        String itemName = (String) jTable.getValueAt(i, 1);
+                        int itemPrice = (int) jTable.getValueAt(i, 2);
+                        int itemCount = (int) jTable.getValueAt(i, 3);
+                        saledItemDTOS[i] = new SaledItemDTO(itemName, itemPrice, itemCount);
+                    }
+
+                    long time = System.currentTimeMillis();
+                    SimpleDateFormat dayTime = new SimpleDateFormat("yyyy-mm-dd hh:mm");
+                    String currentTime = dayTime.format(new Date(time));
+                    int money = Integer.parseInt(itemid.getText());
+                    salesInfoDAO.createSaleInfo(currentTime,money,saledItemDTOS);
+                    receivedMoney.setText(money + "");
+                    money = money - Integer.parseInt(chargedMoney.getText());
+                    remainedMoney.setText(money + "");
+                    dispose();
+                }
+            });
 
             JLabel ITEMID = new JLabel("받은 금액");
             ITEMID.setHorizontalAlignment(SwingConstants.CENTER);
