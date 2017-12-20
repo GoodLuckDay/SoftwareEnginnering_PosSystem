@@ -125,7 +125,7 @@ public class SalesInfoDAO {
         }
     }
     
-    public static ArrayList<SaledItemDTO> getAllItem(){
+    public ArrayList<SaledItemDTO> getAllItem(){
     	int salesNo;
     	String paytime;
     	int totalPrice;
@@ -176,20 +176,20 @@ public class SalesInfoDAO {
     }
 
     public static void main(String[] args) {
-//        SaledInfoDTO[] items = new SaledInfoDTO[10];
-//        for(int i=0; i<items.length; i++){
-//            items[i] = new SaledInfoDTO("오레오"+i, 1200 + i, i);
-//        }
-//        createSaleInfo("2017/11/11 12:37", 3500, items);
+        SaledInfoDTO[] items = new SaledInfoDTO[10];
+        for(int i=0; i<items.length; i++){
+            items[i] = new SaledInfoDTO("오레오"+i, 1200 + i, i);
+        }
+        createSaleInfo("2017/11/11 15:57", 7000, items);
 //        getSaledItemList("2017/11/11 12:37");
 //        getSalesInfo("1");
 //        getSalesItems("1");
-        ArrayList<SaledItemDTO> saledItemDTOS = getAllItem();
-        for(int i=0; i<saledItemDTOS.size(); i++){
-            System.out.println(saledItemDTOS.get(i).getPayTime());
-            System.out.println(saledItemDTOS.get(i).getSaleNum());
-            System.out.println(saledItemDTOS.get(i).getTotalPrice());
-        }
+//        ArrayList<SaledItemDTO> saledItemDTOS = getAllItem();
+//        for(int i=0; i<saledItemDTOS.size(); i++){
+//            System.out.println(saledItemDTOS.get(i).getPayTime());
+//            System.out.println(saledItemDTOS.get(i).getSaleNum());
+//            System.out.println(saledItemDTOS.get(i).getTotalPrice());
+//        }
     }
 }
 

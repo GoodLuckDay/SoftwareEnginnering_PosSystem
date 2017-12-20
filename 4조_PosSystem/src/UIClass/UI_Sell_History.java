@@ -1,8 +1,12 @@
 package UIClass;
+import PosDAOClass.SaledItemDTO;
+import PosDAOClass.SalesInfoDAO;
+
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Vector;
 
 import javax.swing.JButton;
@@ -20,11 +24,12 @@ import javax.swing.table.TableColumnModel;
 
 public class UI_Sell_History extends JFrame {
 	private Vector<String> userColumn = new Vector<String>();
+	private SalesInfoDAO salesInfoDAO = new SalesInfoDAO();
 	private DefaultTableModel model;
 	private JPanel listPanel;
 	private JTable table;
 	private JScrollPane scrollView;
-	private Vector<String> userRow;
+	private Vector userRow = new Vector();
 	
 	public UI_Sell_History() {
 		getContentPane().setLayout(null);
@@ -67,12 +72,16 @@ public class UI_Sell_History extends JFrame {
 		this.setResizable(false);
 		this.setSize(770, 500);
 		this.setVisible(true);
-		
-		userRow = new Vector<String>();
-		userRow.addElement("정윤수");
-		userRow.addElement("17/12/19 23시 55분 34초");
-		userRow.addElement("100,000,000");
-		model.addRow(userRow);
+
+		ArrayList<SaledItemDTO> itemDTOArrayList = salesInfoDAO.getAllItem();
+		for(int i=0; i<itemDTOArrayList.size(); i++){
+			userRow = new Vector();
+			SaledItemDTO itemDTO = itemDTOArrayList.get(i);
+			userRow.add(i+1);
+			userRow.add(itemDTO.getPayTime());
+			userRow.add(itemDTO.getTotalPrice());
+			model.addRow(userRow);
+		}
 
 	}
 //	public static void main(String[] args) {

@@ -2,7 +2,6 @@ package PosDAOClass;
 
 public class SaledItemDTO {
     private int saleNum;
-
     private String payTime;
     private int totalPrice;
 

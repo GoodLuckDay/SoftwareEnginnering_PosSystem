@@ -181,7 +181,7 @@ public class UI_SalesMonitor extends JFrame {
                     int id = Integer.parseInt(itemid.getText());
                     int count = Integer.parseInt(quantity.getText());
 
-                    if (items.size() <= id) {
+                    if (items.size() < id) {
                         msg.setText("등록 되지 않은 제품 번호 입니다. ");
                     } else {
                         ItemDTO tempItemDTO = items.get(id - 1);
