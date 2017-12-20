@@ -31,12 +31,12 @@ public class UI_SalesList extends JFrame {
     private Vector<String> Row;
     private JScrollPane scroll;
     private DefaultTableModel model;
-    private JLabel button_bar = new JLabel("湲곌컙 꽕젙");
-    private JButton dayBtn = new JButton("씪");
-    private JButton weekBtn = new JButton("二");
-    private JButton monthBtn = new JButton("썡");
-    private JButton quaterBtn = new JButton("遺꾧린");
-    private JButton exitButton = new JButton("痍⑥냼");
+    private JLabel button_bar = new JLabel("기간 설정");
+    private JButton dayBtn = new JButton("일");
+    private JButton weekBtn = new JButton("주");
+    private JButton monthBtn = new JButton("월");
+    private JButton quaterBtn = new JButton("분기");
+    private JButton exitButton = new JButton("취소");
 
     public UI_SalesList() {
         getContentPane().setLayout(null);
@@ -48,14 +48,14 @@ public class UI_SalesList extends JFrame {
         panel.setBorder(new LineBorder(Color.LIGHT_GRAY, 2));
         panel.setLayout(null);
 
-        JLabel label1 = new JLabel("留ㅼ텧 湲곌컙 떒쐞 : ");
-        label1.setFont(new Font("굹닎怨좊뵓", Font.BOLD, 12));
+        JLabel label1 = new JLabel("매출 기간 단위 : ");
+        label1.setFont(new Font("나눔고딕", Font.BOLD, 12));
         label1.setBounds(12, 12, 92, 15);
         panel.add(label1);
 
-        JLabel credit = new JLabel("씪");
+        JLabel credit = new JLabel("일");
         credit.setForeground(SystemColor.textHighlight);
-        credit.setFont(new Font("굹닎怨좊뵓", Font.BOLD, 12));
+        credit.setFont(new Font("나눔고딕", Font.BOLD, 12));
         credit.setBounds(98, 11, 62, 16);
         panel.add(credit);
 
@@ -70,7 +70,7 @@ public class UI_SalesList extends JFrame {
         button_bar.setBounds(0, 0, 115, 50);
         panel_1.add(button_bar);
         button_bar.setForeground(Color.BLACK);
-        button_bar.setFont(new Font("굹닎怨좊뵓", Font.BOLD, 14));
+        button_bar.setFont(new Font("나눔고딕", Font.BOLD, 14));
         button_bar.setHorizontalAlignment(SwingConstants.CENTER);
 
         exitButton.addActionListener(new ActionListener() {
@@ -102,8 +102,8 @@ public class UI_SalesList extends JFrame {
         panel_2.setBounds(30, 75, 710, 350);
         panel_2.setLayout(null);
 
-        Column.addElement("湲 媛");
-        Column.addElement("珥 븸");
+        Column.addElement("기 간");
+        Column.addElement("총 ");
 
         model = new DefaultTableModel(Column, 0);
 
@@ -165,14 +165,14 @@ public class UI_SalesList extends JFrame {
         model.addRow(row);
         row = new Vector();
         
-        this.setTitle("留ㅼ텧 議고쉶");
+        this.setTitle("매출 조회");
         this.setResizable(false);
         this.setSize(900, 500);
         this.setVisible(true);
 
         dayBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                credit.setText("씪");
+                credit.setText("");
                 model = new DefaultTableModel(Column, 0);
                 jtableView.setModel(model);
 
@@ -227,13 +227,13 @@ public class UI_SalesList extends JFrame {
         
         weekBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                credit.setText("二");
+                credit.setText("주");
             }
         });
         
         monthBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                credit.setText("썡");
+                credit.setText("월");
                 
                 model = new DefaultTableModel(Column, 0);
                 jtableView.setModel(model);
@@ -287,7 +287,7 @@ public class UI_SalesList extends JFrame {
         
         quaterBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                credit.setText("遺꾧린");
+                credit.setText("분기");
 
                 model = new DefaultTableModel(Column, 0);
                 jtableView.setModel(model);
@@ -314,7 +314,7 @@ public class UI_SalesList extends JFrame {
                         totalprice = items.getTotalPrice();
                         one_y_time = o_time.substring(2, 4);
                         one_m_time = (Integer.parseInt(o_time.substring(5, 7)) -1 ) / 3 + 1;
-                        quater = one_y_time + "뀈 " + one_m_time  + "遺꾧린";
+                        quater = one_y_time + "년 " + one_m_time  + "분기";
                     }
                     else {
                         // 2017-12-12 12:12:00
@@ -332,7 +332,7 @@ public class UI_SalesList extends JFrame {
                             model.addRow(row);
                             row = new Vector();
 
-                            quater = two_y_time + "뀈 " + two_m_time + "遺꾧린";
+                            quater = two_y_time + "년 " + two_m_time + "분기";
                             one_y_time = two_y_time;
                             one_m_time = two_m_time;
                             totalprice = items.getTotalPrice();
