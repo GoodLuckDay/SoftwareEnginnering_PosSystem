@@ -176,21 +176,26 @@ public class UI_SalesList extends JFrame {
                 String two_time = "";
                 Vector row = new Vector();
                 int listNum = 1;
-                for (int i = 0; i < list.size(); i++) {
+                for( int i = 0; i < list.size(); i++ ) {
                     items = list.get(i);
                     o_time = items.getPayTime();
-                    if (i == 0) {
+                    if ( i == 0 ) {
                         totalprice = items.getTotalPrice();
-                        one_time = o_time.substring(0, o_time.length() - 2);
-                    } else {
-                        two_time = o_time.substring(0, o_time.length() - 2);
-                        if (one_time == two_time) {
+                        one_time = o_time.substring(0, 10);
+
+                    }
+                    else {
+                        // 2017-12-12 12:12:00
+                        two_time = o_time.substring(0, 10);
+                        if ( one_time.equals(two_time) ) {
                             totalprice += items.getTotalPrice();
-                        } else {
-                            row.add(listNum++);
+
+                        }
+                        else {
                             row.add(one_time);
                             row.add(totalprice);
                             model.addRow(row);
+                            row = new Vector();
 
                             one_time = two_time;
                             totalprice = items.getTotalPrice();
@@ -198,6 +203,10 @@ public class UI_SalesList extends JFrame {
 
                     }
                 }
+                row.add(one_time);
+                row.add(totalprice);
+                model.addRow(row);
+                row = new Vector();
             }
         });
     }

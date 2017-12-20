@@ -252,7 +252,7 @@ public class UI_SalesMonitor extends JFrame {
 
     public class UI_Calculate extends JFrame {
         private JTextField itemid;
-
+        private ItemListDTO itemListDTO = new ItemListDTO();
         public UI_Calculate() {
             getContentPane().setLayout(null);
             this.setSize(580, 200);
@@ -276,24 +276,29 @@ public class UI_SalesMonitor extends JFrame {
 
             btnNewButton.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent arg0) {
-
-                    SaledInfoDTO[] saledInfoDTOS = new SaledInfoDTO[jTable.getRowCount()];
-                    for (int i = 0; i < jTable.getRowCount(); i++) {
-                        String itemName = (String) jTable.getValueAt(i, 1);
-                        int itemPrice = (int) jTable.getValueAt(i, 2);
-                        int itemCount = (int) jTable.getValueAt(i, 3);
-                        saledInfoDTOS[i] = new SaledInfoDTO(itemName, itemPrice, itemCount);
+                    if(Integer.parseInt(chargedMoney.getText()) > Integer.parseInt(itemid.getText())){
+                        new UI_SalesMonitor_lack();
                     }
+                    else {
+                        SaledInfoDTO[] saledInfoDTOS = new SaledInfoDTO[jTable.getRowCount()];
+                        for (int i = 0; i < jTable.getRowCount(); i++) {
+                            String itemName = (String) jTable.getValueAt(i, 1);
+                            int itemCount = (int) jTable.getValueAt(i, 2);
+                            int itemPrice = (int) jTable.getValueAt(i, 3);
+                            itemListDTO.purChaseItem(itemName, itemCount);
+                            saledInfoDTOS[i] = new SaledInfoDTO(itemName, itemCount, itemPrice);
+                        }
 
-                    long time = System.currentTimeMillis();
-                    SimpleDateFormat dayTime = new SimpleDateFormat("yyyy-mm-dd hh:mm");
-                    String currentTime = dayTime.format(new Date(time));
-                    int money = Integer.parseInt(itemid.getText());
-                    salesInfoDAO.createSaleInfo(currentTime, money, saledInfoDTOS);
-                    receivedMoney.setText(money + "");
-                    money = money - Integer.parseInt(chargedMoney.getText());
-                    remainedMoney.setText(money + "");
-                    dispose();
+                        long time = System.currentTimeMillis();
+                        SimpleDateFormat dayTime = new SimpleDateFormat("yyyy:MM:dd-hh:mm");
+                        String currentTime = dayTime.format(new Date(time));
+                        int money = Integer.parseInt(itemid.getText());
+                        salesInfoDAO.createSaleInfo(currentTime, Integer.parseInt(chargedMoney.getText()), saledInfoDTOS);
+                        receivedMoney.setText(money + "");
+                        money = money - Integer.parseInt(chargedMoney.getText());
+                        remainedMoney.setText(money + "");
+                        dispose();
+                    }
                 }
             });
 
@@ -310,6 +315,30 @@ public class UI_SalesMonitor extends JFrame {
             getContentPane().add(itemid);
             itemid.setColumns(10);
             this.setVisible(true);
+        }
+    }
+    class UI_SalesMonitor_lack extends JFrame {
+        public UI_SalesMonitor_lack(){
+            getContentPane().setLayout(null);
+            this.setSize(780, 200);
+            this.setTitle("금액부족");
+            JButton okButton = new JButton("확 인");
+            okButton.setFont(new Font("나눔고딕", Font.BOLD, 19));
+            okButton.setBounds(592, 12, 146, 55);
+            getContentPane().add(okButton);
+            okButton.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent arg0) {
+                    dispose();
+                }
+            });
+
+            JLabel ITEMID = new JLabel("지불하신 금액이 부족합니다.");
+            ITEMID.setHorizontalAlignment(SwingConstants.CENTER);
+            ITEMID.setFont(new Font("나눔고딕", Font.BOLD, 19));
+            ITEMID.setBounds(87, 10, 381, 98);
+            getContentPane().add(ITEMID);
+            this.setVisible(true);
+
         }
     }
 }

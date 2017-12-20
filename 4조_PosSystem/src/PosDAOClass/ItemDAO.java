@@ -171,6 +171,34 @@ public class ItemDAO {
         }
     }
 
+    public boolean buyItem(String itemName, int itemCount){
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        try {
+            connection = DBConnectionPoolMgr.geteDataSource().getConnection();
+            StringBuffer cQuery = new StringBuffer();
+            if(isItemExist(connection, preparedStatement, itemName)){
+                cQuery.append("update item set item_stock = item_stock - ? where item_name = ?");
+                preparedStatement = connection.prepareStatement(cQuery.toString());
+                preparedStatement.setInt(1, itemCount);
+                preparedStatement.setString(2, itemName);
+                preparedStatement.executeUpdate();
+                return true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                closeConnectionAndStmt(connection, preparedStatement);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return false;
+    }
+
     //상품 확인
     private boolean isItemExist(Connection connection, PreparedStatement preparedStatement, String itemName) throws Exception{
         StringBuffer query = new StringBuffer();
