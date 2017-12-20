@@ -25,9 +25,9 @@ public class UI_ItemList extends JFrame {
 	Vector cols = null;
 	Vector rows = null;
 	public UI_ItemList() {
+		setTitle("물품관리");
 		itemListDTO = new ItemListDTO();
 		table = new JTable();
-
 		cols = new Vector();
 		cols.add("상품 번호");
 		cols.add("상품명");
@@ -100,6 +100,7 @@ public class UI_ItemList extends JFrame {
 		private JTextField text_name;
 
 		public UI_Item_Register() {
+			setTitle("물품등록");
 			getContentPane().setLayout(null);
 
 			JButton complete = new JButton("\uC644\uB8CC");
@@ -171,12 +172,17 @@ public class UI_ItemList extends JFrame {
 		private JTextField text_num;
 
 		public UI_Item_Detail(int itemNo, String itemName, int itemPriece, int itemStock) {
+			setTitle("물품상세정보");
 			getContentPane().setLayout(null);
 
 			JButton change = new JButton("\uC218 \uC815");
 			change.setFont(new Font("굴림", Font.PLAIN, 24));
 			change.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					itemListDTO.updateItemInfo(itemName, text_name.getText(), Integer.parseInt(text_price.getText())
+							, Integer.parseInt(text_quantity.getText()));
+					updateTableModel();
+					dispose();
 				}
 			});
 			change.setBounds(411, 77, 190, 63);
@@ -186,7 +192,9 @@ public class UI_ItemList extends JFrame {
 			delete.setFont(new Font("굴림", Font.PLAIN, 24));
 			delete.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-
+					itemListDTO.deleteItemInfo(itemName);
+					updateTableModel();
+					dispose();
 				}
 			});
 			delete.setBounds(411, 178, 190, 63);
@@ -215,6 +223,7 @@ public class UI_ItemList extends JFrame {
 			text_num = new JTextField();
 			text_num.setHorizontalAlignment(SwingConstants.RIGHT);
 			text_num.setText(String.valueOf(itemNo+1));
+			text_num.setEditable(false);
 			text_num.setFont(new Font("굴림", Font.PLAIN, 20));
 			panel.add(text_num);
 			text_num.setColumns(10);
