@@ -1,5 +1,6 @@
 package UIClass;
 import PosDAOClass.ItemDAO;
+import PosDAOClass.ItemDTO;
 import PosDAOClass.ItemListDTO;
 
 import javax.swing.*;
@@ -14,6 +15,8 @@ import javax.swing.border.SoftBevelBorder;
 
 import javax.swing.border.LineBorder;
 
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.Vector;
 
 public class UI_ItemList extends JFrame {
@@ -22,9 +25,9 @@ public class UI_ItemList extends JFrame {
 	Vector cols = null;
 	Vector rows = null;
 	public UI_ItemList() {
+		setTitle("물품관리");
 		itemListDTO = new ItemListDTO();
 		table = new JTable();
-
 		cols = new Vector();
 		cols.add("상품 번호");
 		cols.add("상품명");
@@ -62,6 +65,17 @@ public class UI_ItemList extends JFrame {
 			}
 		});
 
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int rowNum = table.rowAtPoint(e.getPoint());
+				if(e.getClickCount() == 2){
+					ItemDTO itemDTO = itemListDTO.getItemInfo(rowNum);
+					new UI_Item_Detail(rowNum, itemDTO.getItemName(), itemDTO.getItemPrice(), itemDTO.getItemStock());
+				}
+			}
+		});
+
 		JScrollPane scroll = new JScrollPane(table);
 		scroll.setBounds(12, 22, 748, 351);
 		getContentPane().add(scroll);
@@ -80,18 +94,13 @@ public class UI_ItemList extends JFrame {
 		});
 	}
 
-	private void ui_Item_Resister(){
-		JTextField text_price;
-		JTextField text_quantity;
-		JTextField text_name;
-	}
-
 	class UI_Item_Register extends JFrame {
 		private JTextField text_price;
 		private JTextField text_quantity;
 		private JTextField text_name;
 
 		public UI_Item_Register() {
+			setTitle("물품등록");
 			getContentPane().setLayout(null);
 
 			JButton complete = new JButton("\uC644\uB8CC");
@@ -152,6 +161,107 @@ public class UI_ItemList extends JFrame {
 			text_price.setColumns(10);
 			this.setResizable(false);
 			this.setSize(600, 280);
+			this.setVisible(true);
+		}
+	}
+
+	class UI_Item_Detail extends JFrame {
+		private JTextField text_price;
+		private JTextField text_quantity;
+		private JTextField text_name;
+		private JTextField text_num;
+
+		public UI_Item_Detail(int itemNo, String itemName, int itemPriece, int itemStock) {
+			setTitle("물품상세정보");
+			getContentPane().setLayout(null);
+
+			JButton change = new JButton("\uC218 \uC815");
+			change.setFont(new Font("굴림", Font.PLAIN, 24));
+			change.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					itemListDTO.updateItemInfo(itemName, text_name.getText(), Integer.parseInt(text_price.getText())
+							, Integer.parseInt(text_quantity.getText()));
+					updateTableModel();
+					dispose();
+				}
+			});
+			change.setBounds(411, 77, 190, 63);
+			getContentPane().add(change);
+
+			JButton delete = new JButton("\uC0AD \uC81C");
+			delete.setFont(new Font("굴림", Font.PLAIN, 24));
+			delete.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					itemListDTO.deleteItemInfo(itemName);
+					updateTableModel();
+					dispose();
+				}
+			});
+			delete.setBounds(411, 178, 190, 63);
+			getContentPane().add(delete);
+
+			JButton cancel = new JButton("\uCDE8 \uC18C");
+			cancel.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					dispose();
+				}
+			});
+			cancel.setFont(new Font("굴림", Font.PLAIN, 24));
+			cancel.setBounds(411, 274, 190, 63);
+			getContentPane().add(cancel);
+
+			JPanel panel = new JPanel();
+			panel.setBounds(14, 12, 330, 407);
+			getContentPane().add(panel);
+			panel.setLayout(new GridLayout(4, 2));
+
+			JLabel item_num = new JLabel("\uC81C\uD488 \uBC88\uD638");
+			item_num.setHorizontalAlignment(SwingConstants.CENTER);
+			item_num.setFont(new Font("굴림", Font.PLAIN, 30));
+			panel.add(item_num);
+
+			text_num = new JTextField();
+			text_num.setHorizontalAlignment(SwingConstants.RIGHT);
+			text_num.setText(String.valueOf(itemNo+1));
+			text_num.setEditable(false);
+			text_num.setFont(new Font("굴림", Font.PLAIN, 20));
+			panel.add(text_num);
+			text_num.setColumns(10);
+
+			JLabel Item_name = new JLabel("\uC0C1\uD488\uBA85");
+			Item_name.setFont(new Font("굴림", Font.PLAIN, 30));
+			Item_name.setHorizontalAlignment(JLabel.CENTER);
+			panel.add(Item_name);
+			text_name = new JTextField();
+			text_name.setHorizontalAlignment(SwingConstants.CENTER);
+			text_name.setFont(new Font("굴림", Font.PLAIN, 20));
+			text_name.setText(itemName);
+			panel.add(text_name);
+			text_name.setColumns(10);
+
+			JLabel item_price = new JLabel("\uAC00 \uACA9");
+			item_price.setFont(new Font("굴림", Font.PLAIN, 30));
+			item_price.setHorizontalAlignment(JLabel.CENTER);
+			panel.add(item_price);
+			text_price = new JTextField();
+			text_price.setHorizontalAlignment(SwingConstants.RIGHT);
+			text_price.setText(String.valueOf(itemPriece));
+			text_price.setFont(new Font("굴림", Font.PLAIN, 20));
+			panel.add(text_price);
+			text_price.setColumns(10);
+
+			JLabel item_quantity = new JLabel("\uC7AC \uACE0");
+			item_quantity.setFont(new Font("굴림", Font.PLAIN, 30));
+			item_quantity.setHorizontalAlignment(JLabel.CENTER);
+			panel.add(item_quantity);
+			text_quantity = new JTextField();
+			text_quantity.setHorizontalAlignment(SwingConstants.RIGHT);
+			text_quantity.setFont(new Font("굴림", Font.PLAIN, 20));
+			text_quantity.setText(String.valueOf(itemStock));
+			panel.add(text_quantity);
+			text_quantity.setColumns(10);
+			this.setResizable(false);
+			this.setSize(700, 500);
 			this.setVisible(true);
 		}
 	}
