@@ -25,9 +25,9 @@ public class UI_ItemList extends JFrame {
 	Vector cols = null;
 	Vector rows = null;
 	public UI_ItemList() {
+		setTitle("물품관리");
 		itemListDTO = new ItemListDTO();
 		table = new JTable();
-
 		cols = new Vector();
 		cols.add("상품 번호");
 		cols.add("상품명");
@@ -100,6 +100,7 @@ public class UI_ItemList extends JFrame {
 		private JTextField text_name;
 
 		public UI_Item_Register() {
+			setTitle("물품등록");
 			getContentPane().setLayout(null);
 
 			JButton complete = new JButton("\uC644\uB8CC");
@@ -171,6 +172,7 @@ public class UI_ItemList extends JFrame {
 		private JTextField text_num;
 
 		public UI_Item_Detail(int itemNo, String itemName, int itemPriece, int itemStock) {
+			setTitle("물품상세정보");
 			getContentPane().setLayout(null);
 
 			JButton change = new JButton("\uC218 \uC815");
