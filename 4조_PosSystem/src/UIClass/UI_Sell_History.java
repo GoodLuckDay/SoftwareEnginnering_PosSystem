@@ -6,6 +6,8 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Vector;
 
@@ -82,9 +84,79 @@ public class UI_Sell_History extends JFrame {
 			userRow.add(itemDTO.getTotalPrice());
 			model.addRow(userRow);
 		}
+		table.setEnabled(false);
+
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int rowNum = table.rowAtPoint(e.getPoint());
+				if(e.getClickCount() == 2){
+					int itemNo = (int) table.getValueAt(rowNum, 0);
+					String paytime = (String) table.getValueAt(rowNum, 1);
+					int totalCost =(int) table.getValueAt(rowNum, 2);
+					new UI_DetailedSellRecord(itemNo, paytime, totalCost);
+					System.out.println(rowNum);
+				}
+			}
+		});
 
 	}
-//	public static void main(String[] args) {
-//		new UI_Sell_History();
-//	}
+
+	class UI_DetailedSellRecord extends JFrame {
+		private JTable table;
+		private JTable table_1;
+		private Vector<String> cols = null;
+		private Vector<String> rows = null;
+		private SalesInfoDAO salesInfoDAO = new SalesInfoDAO();
+		public UI_DetailedSellRecord(int itemNo, String paytime, int totalCost) {
+			getContentPane().setLayout(null);
+
+			JScrollPane scrollPane = new JScrollPane();
+			scrollPane.setBounds(12, 10, 579, 43);
+			getContentPane().add(scrollPane);
+			cols = new Vector();
+			rows = new Vector();
+			cols.add("판매 번호");
+			cols.add("계산 시간");
+			cols.add("판매 금액");
+			rows.add(String.valueOf(itemNo));
+			rows.add(String.valueOf(paytime));
+			rows.add(String.valueOf(totalCost));
+			Vector temp = new Vector();
+			temp.add(rows);
+			table = new JTable();
+			table.setModel(new DefaultTableModel(
+					temp, cols
+			));
+
+			scrollPane.setViewportView(table);
+
+			JButton exitButton = new JButton("\uCDE8\uC18C");
+			exitButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					dispose();
+				}
+			});
+			exitButton.setFont(new Font("나눔고딕", Font.BOLD, 18));
+			exitButton.setBounds(231, 418, 127, 43);
+			getContentPane().add(exitButton);
+
+			JScrollPane scrollPane_1 = new JScrollPane();
+			scrollPane_1.setBounds(12, 63, 579, 306);
+			getContentPane().add(scrollPane_1);
+
+			rows = salesInfoDAO.getAllInfo(itemNo);
+
+			table_1 = new JTable();
+			table_1.setModel(new DefaultTableModel(
+					rows, cols
+			));
+			scrollPane_1.setViewportView(table_1);
+			this.setResizable(false);
+			this.setSize(600, 500);
+			this.setVisible(true);
+		}
+
+	}
+
 }

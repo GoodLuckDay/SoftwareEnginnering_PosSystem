@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Vector;
 
 public class SalesInfoDAO {
     public static void createSaleInfo(String currentTime, int totalCost, SaledInfoDTO[] items) {
@@ -123,6 +124,46 @@ public class SalesInfoDAO {
                 e.printStackTrace();
             }
         }
+    }
+
+    public Vector getAllInfo(int saleNo){
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        Vector data = null;
+        try {
+            connection = DBConnectionPoolMgr.geteDataSource().getConnection();
+            StringBuffer cQuery = new StringBuffer();
+            data = new Vector();
+            cQuery.append("SELECT * FROM salesItems where salesNo = ?");
+            preparedStatement = connection.prepareStatement(cQuery.toString());
+            preparedStatement.setInt(1, saleNo);
+            ResultSet rs = preparedStatement.executeQuery();
+
+            while(rs.next()){
+                Vector temp = new Vector();
+                String pName = rs.getString("pname");
+                int count = rs.getInt("count");
+                int perprice =rs.getInt("perprice");
+                temp.add(pName);
+                temp.add(count);
+                temp.add(perprice);
+                data.add(temp);
+            }
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        } finally
+
+        {
+            try {
+                closeConnectionAndStmt(connection, preparedStatement);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return data;
     }
     
     public ArrayList<SaledItemDTO> getAllItem(){
