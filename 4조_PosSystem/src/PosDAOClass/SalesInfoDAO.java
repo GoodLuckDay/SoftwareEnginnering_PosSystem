@@ -6,9 +6,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class SalesInfoDAO {
-    public static void createSaleInfo(String currentTime, int totalCost, SaledItemDTO[] items) {
+    public static void createSaleInfo(String currentTime, int totalCost, SaledInfoDTO[] items) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try {
@@ -123,6 +124,47 @@ public class SalesInfoDAO {
             }
         }
     }
+    
+    public ArrayList<SaledItemDTO> getAllItem(){
+    	int salesNo;
+    	String paytime;
+    	int totalPrice;
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ArrayList<SaledItemDTO> SalesList = new ArrayList<SaledItemDTO>();
+        
+        try {
+            connection = DBConnectionPoolMgr.geteDataSource().getConnection();
+            StringBuffer cQuery = new StringBuffer();
+
+            cQuery.append("SELECT salesNo, paytime, totalPrice FROM salesInfo");
+            preparedStatement = connection.prepareStatement(cQuery.toString());
+            ResultSet rs = preparedStatement.executeQuery();
+            
+            while(rs.next()){
+                salesNo = rs.getInt("salesNo");
+                paytime = rs.getString("paytime");
+                totalPrice = rs.getInt("totalPrice");
+                SalesList.add(new SaledItemDTO(salesNo, paytime, totalPrice));
+            }
+            
+         
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        } finally
+
+        {
+            try {
+                closeConnectionAndStmt(connection, preparedStatement);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+		return SalesList;
+    }
 
     private static void closeConnectionAndStmt(Connection connection, PreparedStatement preparedStatement) throws SQLException {
         if (preparedStatement != null) {
@@ -134,14 +176,20 @@ public class SalesInfoDAO {
     }
 
     public static void main(String[] args) {
-//        SaledItemDTO[] items = new SaledItemDTO[10];
-//        for(int i=0; i<items.length; i++){
-//            items[i] = new SaledItemDTO("오레오"+i, 1200 + i, i);
-//        }
-//        createSaleInfo("2017/11/11 12:37", 3500, items);
+        SaledInfoDTO[] items = new SaledInfoDTO[10];
+        for(int i=0; i<items.length; i++){
+            items[i] = new SaledInfoDTO("오레오"+i, 1200 + i, i);
+        }
+        createSaleInfo("2017/11/11 15:57", 7000, items);
 //        getSaledItemList("2017/11/11 12:37");
 //        getSalesInfo("1");
-        getSalesItems("1");
+//        getSalesItems("1");
+//        ArrayList<SaledItemDTO> saledItemDTOS = getAllItem();
+//        for(int i=0; i<saledItemDTOS.size(); i++){
+//            System.out.println(saledItemDTOS.get(i).getPayTime());
+//            System.out.println(saledItemDTOS.get(i).getSaleNum());
+//            System.out.println(saledItemDTOS.get(i).getTotalPrice());
+//        }
     }
 }
 

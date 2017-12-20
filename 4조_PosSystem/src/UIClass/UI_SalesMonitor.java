@@ -7,7 +7,9 @@ import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Vector;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
@@ -16,9 +18,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
-import PosDAOClass.ItemDAO;
-import PosDAOClass.ItemDTO;
-import PosDAOClass.ItemListDTO;
+import PosDAOClass.*;
 
 import javax.swing.JPanel;
 import javax.swing.JLabel;
@@ -32,14 +32,18 @@ import java.awt.GridLayout;
 import javax.swing.Box;
 import javax.swing.JTextField;
 import java.awt.Color;
+import java.util.logging.SimpleFormatter;
 
 
 public class UI_SalesMonitor extends JFrame {
+	
     private final JButton exitButton = new JButton("취소");
     private final JButton registButton = new JButton("등록");
     private final JButton calculateButton = new JButton("계산");
     private final Vector<String> userColumn = new Vector<String>();
+    private SimpleDateFormat simpleDateFormat;
     private final JPanel listPanel;
+    private SalesInfoDAO salesInfoDAO = new SalesInfoDAO();
     private JScrollPane scrollView;
     private JTable jTable;
     private DefaultTableModel model;
@@ -177,22 +181,26 @@ public class UI_SalesMonitor extends JFrame {
 
                     int id = Integer.parseInt(itemid.getText());
                     int count = Integer.parseInt(quantity.getText());
+                    if (items.size() < id) {
+                        msg.setText("등록 되지 않은 제품 번호 입니다. ");
+                    }
+                    else {
+                        ItemDTO tempItemDTO = items.get(id - 1);
+                        if (count <= tempItemDTO.getItemStock()) {
 
-                    ItemDTO tempItemDTO = items.get(id - 1);
-                    
-                    if (count <= tempItemDTO.getItemStock()) {
-                        tempVector.add(id);
-                        tempVector.add(tempItemDTO.getItemName());
-                        tempVector.add(count);
-                        tempVector.add(tempItemDTO.getItemPrice());
+                            tempVector.add(id);
+                            tempVector.add(tempItemDTO.getItemName());
+                            tempVector.add(count);
+                            tempVector.add(tempItemDTO.getItemPrice());
 
-                        model.addRow(tempVector);
-                        int price = Integer.parseInt(chargedMoney.getText()) + count * tempItemDTO.getItemPrice();
-                        chargedMoney.setText(price + "");
-                        msg.setText("");
-                        
-                    } else {
-                        msg.setText("현재 보유한 재고량보다 신청한 수량이 많습니다.");
+                            model.addRow(tempVector);
+                            int price = Integer.parseInt(chargedMoney.getText()) + count * tempItemDTO.getItemPrice();
+                            chargedMoney.setText(price + "");
+
+                            msg.setText("");
+                        } else {
+                            msg.setText("현재 보유한 재고량보다 신청한 수량이 많습니다.");
+                        }
                     }
 
                 }
@@ -243,15 +251,15 @@ public class UI_SalesMonitor extends JFrame {
         }
     }
 
-    class UI_Calculate extends JFrame{
-        private JTextField recieve;
-        
+    public class UI_Calculate extends JFrame {
+        private JTextField itemid;
+
         public UI_Calculate() {
-        	
+     	
             getContentPane().setLayout(null);
             this.setSize(580, 200);
             this.setTitle("계산");
-         
+
             JButton cancelButton = new JButton("취 소");
             cancelButton.setFont(new Font("나눔고딕", Font.BOLD, 19));
             cancelButton.setBounds(592, 79, 146, 55);
@@ -262,25 +270,38 @@ public class UI_SalesMonitor extends JFrame {
                 }
             });
 
-            JButton okButton = new JButton("확인");
-            okButton.setFont(new Font("나눔고딕", Font.BOLD, 20));
-            okButton.setBounds(374, 39, 146, 68);
-            getContentPane().add(okButton);
-            
-            okButton.addActionListener(new ActionListener() {
+            JButton btnNewButton = new JButton("확인");
+            btnNewButton.setFont(new Font("나눔고딕", Font.BOLD, 20));
+            btnNewButton.setBounds(374, 39, 146, 68);
+            getContentPane().add(btnNewButton);
+	    btnNewButton.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent arg0) {
-                    
-                	 int money = Integer.parseInt(recieve.getText());                	 
-                	
-                	 receivedMoney.setText(money + "");
-                	 money = money - Integer.parseInt(chargedMoney.getText());
-                	 System.out.println(chargedMoney.getText());
-                	 remainedMoney.setText(money +"");
-                	 dispose();
-                	
+
+                    SaledInfoDTO[] saledInfoDTOS = new SaledInfoDTO[jTable.getRowCount()];
+                    for (int i = 0; i < jTable.getRowCount(); i++) {
+                        String itemName = (String) jTable.getValueAt(i, 1);
+                        int itemPrice = (int) jTable.getValueAt(i, 2);
+                        int itemCount = (int) jTable.getValueAt(i, 3);
+                        saledInfoDTOS[i] = new SaledInfoDTO(itemName, itemPrice, itemCount);
+                    }
+
+                    long time = System.currentTimeMillis();
+                    SimpleDateFormat dayTime = new SimpleDateFormat("yyyy-mm-dd hh:mm");
+                    String currentTime = dayTime.format(new Date(time));
+                    int money = Integer.parseInt(itemid.getText());
+                    salesInfoDAO.createSaleInfo(currentTime, money, saledInfoDTOS);
+                    receivedMoney.setText(money + "");
+                    money = money - Integer.parseInt(chargedMoney.getText());
+                    remainedMoney.setText(money + "");
+                    dispose();
                 }
             });
 
+            JLabel ITEMID = new JLabel("받은 금액");
+            ITEMID.setHorizontalAlignment(SwingConstants.CENTER);
+            ITEMID.setFont(new Font("나눔고딕", Font.BOLD, 19));
+            ITEMID.setBounds(14, 37, 140, 68);
+            getContentPane().add(ITEMID);
             
             JLabel RECIEVE = new JLabel("받은 금액");
             RECIEVE.setHorizontalAlignment(SwingConstants.CENTER);
@@ -288,12 +309,12 @@ public class UI_SalesMonitor extends JFrame {
             RECIEVE.setBounds(14, 37, 140, 68);
             getContentPane().add(RECIEVE);
 
-            recieve = new JTextField();
-            recieve.setHorizontalAlignment(SwingConstants.CENTER);
-            recieve.setFont(new Font("나눔고딕", Font.BOLD, 15));
-            recieve.setBounds(152, 51, 132, 44);
-            getContentPane().add(recieve);
-            recieve.setColumns(10);
+            itemid = new JTextField();
+            itemid.setHorizontalAlignment(SwingConstants.CENTER);
+            itemid.setFont(new Font("나눔고딕", Font.BOLD, 15));
+            itemid.setBounds(152, 51, 132, 44);
+            getContentPane().add(itemid);
+            itemid.setColumns(10);
             this.setVisible(true);
         }
     }
