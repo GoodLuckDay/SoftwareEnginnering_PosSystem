@@ -20,15 +20,27 @@ public class ItemListDTO {
         for(int i=0; i<items.size(); i++){
             Vector tempVector = new Vector();
             ItemDTO tempItemDTO = items.get(i);
+            tempVector.add(i+1);
             tempVector.add(tempItemDTO.getItemName());
-            tempVector.add(tempItemDTO.getItemPrice());
             tempVector.add(tempItemDTO.getItemStock());
+            tempVector.add(tempItemDTO.getItemPrice());
             data.add(tempVector);
         }
         return data;
     }
+    public void updateItemInfo(String oldItemName, String updatedItemName, int updatedItemPrice, int updatedItemStock){
+        itemDAO.updateItemInfo(oldItemName, updatedItemName, updatedItemPrice, updatedItemStock);
+    }
+
+    public boolean deleteItemInfo(String itemName){
+        return itemDAO.deleteItemInfo(itemName);
+    }
 
     public boolean addItem(String itemName, int itemPrice, int itemStock){
         return itemDAO.createItem(itemName, itemPrice, itemStock);
+    }
+
+    public ItemDTO getItemInfo(int itemNo){
+        return items.get(itemNo);
     }
 }

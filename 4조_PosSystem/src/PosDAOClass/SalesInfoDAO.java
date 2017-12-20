@@ -8,7 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class SalesInfoDAO {
-    public static void createSaleInfo(String currentTime, int totalCost, TestItem[] items) {
+    public static void createSaleInfo(String currentTime, int totalCost, SaledItemDTO[] items) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try {
@@ -19,9 +19,9 @@ public class SalesInfoDAO {
             preparedStatement = connection.prepareStatement(cQuery.toString());
             for(int i=0; i<items.length; i++){
                 preparedStatement.setString(1, currentTime);
-                preparedStatement.setString(2, items[i].itemName);
-                preparedStatement.setInt(3, items[i].itemCount);
-                preparedStatement.setInt(4, items[i].itemPrice);
+                preparedStatement.setString(2, items[i].getItemName());
+                preparedStatement.setInt(3, items[i].getItemCount());
+                preparedStatement.setInt(4, items[i].getItemPrice());
                 preparedStatement.addBatch();
                 preparedStatement.clearParameters();
             }

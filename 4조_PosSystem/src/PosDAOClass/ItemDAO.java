@@ -110,7 +110,7 @@ public class ItemDAO {
     }
 
     //상품 정보 삭제
-    public  void deleteItemInfo(String itemName){
+    public boolean deleteItemInfo(String itemName){
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try {
@@ -123,7 +123,7 @@ public class ItemDAO {
                 preparedStatement.executeUpdate();
             }
             else{
-                return ;
+                return false;
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -135,6 +135,7 @@ public class ItemDAO {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+            return true;
         }
     }
 
