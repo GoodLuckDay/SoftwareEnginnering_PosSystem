@@ -15,10 +15,25 @@ public class SalesInfoDAO {
             connection = DBConnectionPoolMgr.geteDataSource().getConnection();
             StringBuffer cQuery = new StringBuffer();
             cQuery = new StringBuffer();
-            cQuery.append("INSERT INTO saledItem(paymentTime, saledItem_name, saledItem_count, saledItem_price) values(?,?,?,?)");
+            cQuery.append("INSERT INTO salesInfo(paytime, totalPrice) values(?,?)");
             preparedStatement = connection.prepareStatement(cQuery.toString());
+            preparedStatement.setString(1,currentTime);
+            preparedStatement.setInt(2, totalCost);
+            preparedStatement.executeUpdate();
+
+            cQuery = new StringBuffer();
+            cQuery.append("select last_insert_id() as ID from salesInfo");
+            preparedStatement = connection.prepareStatement(cQuery.toString());
+            ResultSet rs = preparedStatement.executeQuery();
+            rs.next();
+            String id = rs.getString("ID");
+
+            cQuery = new StringBuffer();
+            cQuery.append("INSERT INTO salesItems(salesNo, pname, count, perprice) values(?, ?, ?, ?)");
+            preparedStatement = connection.prepareStatement(cQuery.toString());
+
             for(int i=0; i<items.length; i++){
-                preparedStatement.setString(1, currentTime);
+                preparedStatement.setString(1, id);
                 preparedStatement.setString(2, items[i].getItemName());
                 preparedStatement.setInt(3, items[i].getItemCount());
                 preparedStatement.setInt(4, items[i].getItemPrice());
@@ -42,22 +57,22 @@ public class SalesInfoDAO {
         }
     }
 
-    public static void getSaledItemList(String requestedTime){
+    public static void getSalesItems(String salesNo){
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try {
             connection = DBConnectionPoolMgr.geteDataSource().getConnection();
             StringBuffer cQuery = new StringBuffer();
 
-            cQuery.append("SELECT * FROM saledItem WHERE paymentTime = ?");
+            cQuery.append("SELECT * FROM salesItems WHERE salesNo = ?");
             preparedStatement = connection.prepareStatement(cQuery.toString());
-            preparedStatement.setString(1, requestedTime);
+            preparedStatement.setString(1, salesNo);
             ResultSet rs = preparedStatement.executeQuery();
 
             while(rs.next()){
-                String name = rs.getString("saledItem_name");
-                int count = rs.getInt("saledItem_count");
-                int price = rs.getInt("saledItem_price");
+                String name = rs.getString("pname");
+                int count = rs.getInt("count");
+                int price = rs.getInt("perprice");
                 System.out.println(name + " "+ count + " "+ price);
             }
 
@@ -77,21 +92,22 @@ public class SalesInfoDAO {
         }
     }
 
-    public static void getTotalCost(String requestedTime){
+    public static void getSalesInfo(String itemNo){
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try {
             connection = DBConnectionPoolMgr.geteDataSource().getConnection();
             StringBuffer cQuery = new StringBuffer();
 
-            cQuery.append("SELECT SUM(saledItem_price) as totalCost FROM saledItem WHERE paymentTime = ?");
+            cQuery.append("SELECT paytime, totalPrice FROM salesInfo WHERE salesNo = ?");
             preparedStatement = connection.prepareStatement(cQuery.toString());
-            preparedStatement.setString(1, requestedTime);
+            preparedStatement.setString(1, itemNo);
 
             ResultSet rs = preparedStatement.executeQuery();
             rs.next();
-            int cost = rs.getInt("totalCost");
-            System.out.println(cost);
+            String dayTime = rs.getString("paytime");
+            int cost = rs.getInt("totalPrice");
+            System.out.println(dayTime +" " +cost);
         } catch (Exception e)
         {
             e.printStackTrace();
@@ -118,12 +134,17 @@ public class SalesInfoDAO {
     }
 
     public static void main(String[] args) {
-//        TestItem[] items = new TestItem[10];
+//        SaledItemDTO[] items = new SaledItemDTO[10];
 //        for(int i=0; i<items.length; i++){
-//            items[i] = new TestItem("오레오"+i, 1200 + i, i);
+//            items[i] = new SaledItemDTO("오레오"+i, 1200 + i, i);
 //        }
 //        createSaleInfo("2017/11/11 12:37", 3500, items);
-        getSaledItemList("2017/11/11 12:37");
-        getTotalCost("2017/11/11 12:37");
+//        getSaledItemList("2017/11/11 12:37");
+//        getSalesInfo("1");
+        getSalesItems("1");
     }
 }
+
+//ALTER TABLE salesInfo AUTO_INCREMENT=1;
+//SET @CNT = 0;
+//UPDATE salesInfo SET salesNo = @CNT:=@CNT+1;

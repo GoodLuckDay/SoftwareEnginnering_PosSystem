@@ -25,9 +25,9 @@ public class UI_ItemList extends JFrame {
 	Vector cols = null;
 	Vector rows = null;
 	public UI_ItemList() {
-		setTitle("물품관리");
 		itemListDTO = new ItemListDTO();
 		table = new JTable();
+
 		cols = new Vector();
 		cols.add("상품 번호");
 		cols.add("상품명");
@@ -100,16 +100,19 @@ public class UI_ItemList extends JFrame {
 		private JTextField text_name;
 
 		public UI_Item_Register() {
-			setTitle("물품등록");
 			getContentPane().setLayout(null);
 
 			JButton complete = new JButton("\uC644\uB8CC");
 			complete.setFont(new Font("굴림", Font.PLAIN, 24));
 			complete.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					itemListDTO.addItem(text_name.getText(), Integer.parseInt(text_price.getText()), Integer.parseInt(text_quantity.getText()));
-					updateTableModel();
-					dispose();
+					if(text_price.getText().toString().equals("") || text_name.getText().toString().equals("") || text_quantity.getText().toString().equals("")){
+						new UI_Item_Register_Unfilled();
+					}else{
+						itemListDTO.addItem(text_name.getText(), Integer.parseInt(text_price.getText()), Integer.parseInt(text_quantity.getText()));
+						updateTableModel();
+						dispose();
+					}
 				}
 			});
 			complete.setBounds(393, 30, 190, 63);
@@ -162,6 +165,32 @@ public class UI_ItemList extends JFrame {
 			this.setResizable(false);
 			this.setSize(600, 280);
 			this.setVisible(true);
+			
+			
+		}
+		class UI_Item_Register_Unfilled extends JFrame { //물품 등록시 미입력값이 있을때 호출
+			public UI_Item_Register_Unfilled(){
+				getContentPane().setLayout(null);
+				this.setSize(580, 200);
+				this.setTitle("미입력");
+				JButton okButton = new JButton("확 인");
+				okButton.setFont(new Font("나눔고딕", Font.BOLD, 19));
+				okButton.setBounds(592, 12, 146, 55);
+				getContentPane().add(okButton);	
+				okButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						dispose();
+					}
+				});
+				
+				JLabel ITEMID = new JLabel("미입력 값이 있습니다.");
+				ITEMID.setHorizontalAlignment(SwingConstants.CENTER);
+				ITEMID.setFont(new Font("나눔고딕", Font.BOLD, 19));
+				ITEMID.setBounds(87, 10, 381, 98);
+				getContentPane().add(ITEMID);
+				this.setVisible(true);
+				
+			}
 		}
 	}
 
@@ -171,18 +200,47 @@ public class UI_ItemList extends JFrame {
 		private JTextField text_name;
 		private JTextField text_num;
 
+		class UI_Item_Register_Unfilled extends JFrame { //물품 등록시 미입력값이 있을때 호출
+			public UI_Item_Register_Unfilled(){
+				getContentPane().setLayout(null);
+				this.setSize(580, 200);
+				this.setTitle("미입력");
+				JButton okButton = new JButton("확 인");
+				okButton.setFont(new Font("나눔고딕", Font.BOLD, 19));
+				okButton.setBounds(592, 12, 146, 55);
+				getContentPane().add(okButton);	
+				okButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						dispose();
+					}
+				});
+				
+				JLabel ITEMID = new JLabel("미입력 값이 있습니다.");
+				ITEMID.setHorizontalAlignment(SwingConstants.CENTER);
+				ITEMID.setFont(new Font("나눔고딕", Font.BOLD, 19));
+				ITEMID.setBounds(87, 10, 381, 98);
+				getContentPane().add(ITEMID);
+				this.setVisible(true);
+				
+			}
+		}
+		
 		public UI_Item_Detail(int itemNo, String itemName, int itemPriece, int itemStock) {
-			setTitle("물품상세정보");
 			getContentPane().setLayout(null);
 
 			JButton change = new JButton("\uC218 \uC815");
 			change.setFont(new Font("굴림", Font.PLAIN, 24));
 			change.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					itemListDTO.updateItemInfo(itemName, text_name.getText(), Integer.parseInt(text_price.getText())
-							, Integer.parseInt(text_quantity.getText()));
-					updateTableModel();
-					dispose();
+					if(text_price.getText().toString().equals("") || text_name.getText().toString().equals("") || text_quantity.getText().toString().equals("")){
+						new UI_Item_Register_Unfilled();
+					}else{
+						itemListDTO.updateItemInfo(itemName, text_name.getText(), Integer.parseInt(text_price.getText())
+								, Integer.parseInt(text_quantity.getText()));
+						updateTableModel();
+						dispose();
+					}
+					
 				}
 			});
 			change.setBounds(411, 77, 190, 63);
