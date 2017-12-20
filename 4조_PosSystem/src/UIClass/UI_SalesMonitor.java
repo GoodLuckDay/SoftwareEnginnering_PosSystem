@@ -179,7 +179,7 @@ public class UI_SalesMonitor extends JFrame {
                     int count = Integer.parseInt(quantity.getText());
 
                     ItemDTO tempItemDTO = items.get(id - 1);
-
+                    
                     if (count <= tempItemDTO.getItemStock()) {
                         tempVector.add(id);
                         tempVector.add(tempItemDTO.getItemName());
@@ -189,8 +189,8 @@ public class UI_SalesMonitor extends JFrame {
                         model.addRow(tempVector);
                         int price = Integer.parseInt(chargedMoney.getText()) + count * tempItemDTO.getItemPrice();
                         chargedMoney.setText(price + "");
-
                         msg.setText("");
+                        
                     } else {
                         msg.setText("현재 보유한 재고량보다 신청한 수량이 많습니다.");
                     }
@@ -243,24 +243,15 @@ public class UI_SalesMonitor extends JFrame {
         }
     }
 
-    public class UI_Calculate extends JFrame{
-        private JTextField itemid;
-
+    class UI_Calculate extends JFrame{
+        private JTextField recieve;
+        
         public UI_Calculate() {
+        	
             getContentPane().setLayout(null);
             this.setSize(580, 200);
             this.setTitle("계산");
-            JButton okButton = new JButton("확 인");
-            okButton.setFont(new Font("나눔고딕", Font.BOLD, 19));
-            okButton.setBounds(592, 12, 146, 55);
-            getContentPane().add(okButton);
-            okButton.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent arg0) {
-                    //판매 화면에서 총 금액,받은 금액,거스름 돈 을 기입해주고 현재의 정보를 SaledItemDAO에 등록하여 튜플을 추가.
-                    //여기서 추가로 초기화 버튼을 만들어 판매화면의 정보를 초기화 하는 기능을 추가할 것을 추천
-                }
-            });
-
+         
             JButton cancelButton = new JButton("취 소");
             cancelButton.setFont(new Font("나눔고딕", Font.BOLD, 19));
             cancelButton.setBounds(592, 79, 146, 55);
@@ -271,23 +262,38 @@ public class UI_SalesMonitor extends JFrame {
                 }
             });
 
-            JButton btnNewButton = new JButton("확인");
-            btnNewButton.setFont(new Font("나눔고딕", Font.BOLD, 20));
-            btnNewButton.setBounds(374, 39, 146, 68);
-            getContentPane().add(btnNewButton);
+            JButton okButton = new JButton("확인");
+            okButton.setFont(new Font("나눔고딕", Font.BOLD, 20));
+            okButton.setBounds(374, 39, 146, 68);
+            getContentPane().add(okButton);
+            
+            okButton.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent arg0) {
+                    
+                	 int money = Integer.parseInt(recieve.getText());                	 
+                	
+                	 receivedMoney.setText(money + "");
+                	 money = money - Integer.parseInt(chargedMoney.getText());
+                	 System.out.println(chargedMoney.getText());
+                	 remainedMoney.setText(money +"");
+                	 dispose();
+                	
+                }
+            });
 
-            JLabel ITEMID = new JLabel("받은 금액");
-            ITEMID.setHorizontalAlignment(SwingConstants.CENTER);
-            ITEMID.setFont(new Font("나눔고딕", Font.BOLD, 19));
-            ITEMID.setBounds(14, 37, 140, 68);
-            getContentPane().add(ITEMID);
+            
+            JLabel RECIEVE = new JLabel("받은 금액");
+            RECIEVE.setHorizontalAlignment(SwingConstants.CENTER);
+            RECIEVE.setFont(new Font("나눔고딕", Font.BOLD, 19));
+            RECIEVE.setBounds(14, 37, 140, 68);
+            getContentPane().add(RECIEVE);
 
-            itemid = new JTextField();
-            itemid.setHorizontalAlignment(SwingConstants.CENTER);
-            itemid.setFont(new Font("나눔고딕", Font.BOLD, 15));
-            itemid.setBounds(152, 51, 132, 44);
-            getContentPane().add(itemid);
-            itemid.setColumns(10);
+            recieve = new JTextField();
+            recieve.setHorizontalAlignment(SwingConstants.CENTER);
+            recieve.setFont(new Font("나눔고딕", Font.BOLD, 15));
+            recieve.setBounds(152, 51, 132, 44);
+            getContentPane().add(recieve);
+            recieve.setColumns(10);
             this.setVisible(true);
         }
     }
