@@ -229,7 +229,7 @@ public class UI_SalesMonitor extends JFrame {
 			msg.setFont(new Font("나눔고딕", Font.BOLD, 13));
 			getContentPane().add(msg);
 			this.setVisible(true);
-			
+			""""""""""""""""""""""""""""""""''
 	
 		}
 	}
